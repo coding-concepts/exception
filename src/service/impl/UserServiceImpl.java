@@ -4,10 +4,11 @@
 package service.impl;
 
 import data.RegistrationData;
+import exception.ValidationError;
 import exception.ValidationException;
 import service.UserService;
-import validator.RegistrationDataValidator;
-import validator.Validator;
+
+import java.util.HashMap;
 
 /**
  * <code>UserServiceImpl</code> class is  Implementation class for UserService interface.
@@ -24,7 +25,8 @@ import validator.Validator;
  */
 public class UserServiceImpl implements UserService {
 
-    Validator validator = new RegistrationDataValidator();
+    private static HashMap<String,RegistrationData > userTable = new HashMap<>();
+
     /**
      * This is a void class for now. But we will see how this evolves.
      *
@@ -32,9 +34,16 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void registerUser(RegistrationData data) throws ValidationException {
+        runBusinessValidation(data);
+        //add the user data to table
+        userTable.put(data.getEmail(), data);
+    }
 
-        validator.validate(data);
-
+    private void runBusinessValidation(RegistrationData data) throws ValidationException {
+        //We may need to validate if the user is already registered
+        if (userTable.containsKey(data.getEmail())){
+            throw new ValidationException("User is registered.", new ValidationError("email", "registered", "User is registered."));
+        }
     }
 
 }

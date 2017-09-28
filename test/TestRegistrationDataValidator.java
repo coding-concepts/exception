@@ -25,7 +25,7 @@ import java.util.Calendar;
  */
 public class TestRegistrationDataValidator {
 
-    static Validator validator = new RegistrationDataValidator();
+    static Validator validator =  RegistrationDataValidator.getInstance();
 
     public static void main(String[] args){
         RegistrationData data = new RegistrationData();

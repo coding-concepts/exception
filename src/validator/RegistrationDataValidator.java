@@ -27,6 +27,23 @@ import java.util.List;
  */
 public class RegistrationDataValidator implements Validator {
 
+    private static volatile RegistrationDataValidator me; //lazy initialization
+
+    //private static final RegistrationDataValidator me = new RegistrationDataValidator() ; //eager
+
+    private RegistrationDataValidator() {
+
+    }
+
+
+    public static RegistrationDataValidator getInstance() {
+        if (me == null) {
+            me = new RegistrationDataValidator();
+        }
+        return me;
+    }
+
+
     @Override
     public void validate(Object object) throws ValidationException {
         checkNull(object);
@@ -63,7 +80,7 @@ public class RegistrationDataValidator implements Validator {
     }
 
     private void validateGender(List<ValidationError> errors, char gender) {
-        if ( gender != 'M' || gender  != 'F' ||gender != 'O' || gender  != 'N' ) {
+        if ( gender != 'M' && gender  != 'F' && gender != 'O' && gender  != 'N' ) {
             errors.add(new ValidationError("gender", "bad-value", "valid genders are M, F, O, and N."));
         }
     }
