@@ -27,32 +27,54 @@ import java.util.List;
  */
 public class RegistrationDataValidator implements Validator {
 
+//    private static volatile RegistrationDataValidator me; //lazy initialization
+
+    private static final RegistrationDataValidator me = new RegistrationDataValidator() ; //eager
+
+    private RegistrationDataValidator() {
+
+    }
+
+
+    public static RegistrationDataValidator getInstance() {
+//        if (me == null) {
+//            me = new RegistrationDataValidator();
+//        }
+        return me;
+    }
+
+
     @Override
     public void validate(Object object) throws ValidationException {
         checkNull(object);
-        /*
-         *  This should always be called with RegistrationData, but we do not know if we can trust it.
-         *  so Lets check. Note that this exception will be uncovered during the testing time and
-         *  when our code goes to production, we will not have this at all.
-         *  So lets not make a if to check it. rather we will call this with a try catch block.
-         */
+
         List<ValidationError> errors = new ArrayList<>();
+
         try {
+            /*  This should always be called with RegistrationData,
+            but we do not know if we can trust it.
+             *  so Lets check. Note that this exception will be
+             *  uncovered during the testing time and
+             *  when our code goes to production, we will not have this at all.
+             *  So lets not make a if to check it. rather we will call this with
+             *  a try catch block.
+             */
 
-            RegistrationData data = (RegistrationData)object;
-            validateFirstName(errors, data.getFirstName());
-            validateLastName(errors, data.getLastName());
-            validateEmail(errors, data.getEmail());
-            validatePassword(errors, data.getPassword(), data.getConfirmPassWord());
-            validatePhone(errors, data.getPhone());
-            validateDateOfBirth(errors, data.getDob());
-            validateGender(errors, data.getGender());
 
-            //now that we have done all validations. we check and see if we have any Errors, then we should throw an exception.
-            if (! errors.isEmpty()) {
-                throw new ValidationException("validation errors happened.", errors);
-            }
+                RegistrationData data = (RegistrationData) object;
 
+                validateFirstName(errors, data.getFirstName());
+                validateLastName(errors, data.getLastName());
+                validateEmail(errors, data.getEmail());
+                validatePassword(errors, data.getPassword(), data.getConfirmPassWord());
+                validatePhone(errors, data.getPhone());
+                validateDateOfBirth(errors, data.getDob());
+                validateGender(errors, data.getGender());
+
+                //now that we have done all validations. we check and see if we have any Errors, then we should throw an exception.
+                if (!errors.isEmpty()) {
+                    throw new ValidationException("validation errors happened.", errors);
+                }
         } catch(ClassCastException e) {
             // This is because there is a piece of bad code somewhere.
             //Log it.
@@ -63,7 +85,7 @@ public class RegistrationDataValidator implements Validator {
     }
 
     private void validateGender(List<ValidationError> errors, char gender) {
-        if ( gender != 'M' || gender  != 'F' ||gender != 'O' || gender  != 'N' ) {
+        if ( gender != 'M' && gender  != 'F' && gender != 'O' && gender  != 'N' ) {
             errors.add(new ValidationError("gender", "bad-value", "valid genders are M, F, O, and N."));
         }
     }

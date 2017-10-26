@@ -3,6 +3,8 @@
  */
 
 import data.RegistrationData;
+import domain.User;
+import domain.repository.UserRepositoryImpl;
 import exception.ValidationError;
 import exception.ValidationException;
 import validator.RegistrationDataValidator;
@@ -25,14 +27,34 @@ import java.util.Calendar;
  */
 public class TestRegistrationDataValidator {
 
-    static Validator validator = new RegistrationDataValidator();
+    static Validator validator =  RegistrationDataValidator.getInstance();
 
     public static void main(String[] args){
+
+        UserRepositoryImpl repo = new UserRepositoryImpl();
+        User u = repo.findByEmailId("a@a.com");
+
+        u.setFirstName("P");
+        u.setLastName("G");
+        u.setPhone(9876543211L);
+
+        try {
+            u = repo.save(u);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            repo.delete(u);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+        }
+
         RegistrationData data = new RegistrationData();
 
         try {
             Calendar c = Calendar.getInstance();
-            c.add(Calendar.MONTH, 10);
+            c.add(Calendar.MONTH, -10);
             data.setDob(c.getTime());
             validator.validate(data);
         } catch (ValidationException e) {

@@ -4,6 +4,7 @@
 package service;
 
 import data.RegistrationData;
+import data.UserProfile;
 import exception.ValidationException;
 
 /**
@@ -26,6 +27,15 @@ public interface UserService {
      * @param data user Registration Data.
      */
     void registerUser(RegistrationData data) throws ValidationException;
+
+    /**
+     * Validates the user and return the user profile with goodlogin..
+     * @param username userName
+     * @param password password
+     * @throws ValidationException
+     * @return UserProfile
+     */
+    UserProfile validateUser(String username, String password) throws ValidationException;
 
 
 
