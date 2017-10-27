@@ -192,7 +192,7 @@ public class UserRepositoryImpl implements  UserRepository {
                 ps.setDate(6, new java.sql.Date(u.getDob().getTime()));
             }
             ps.setString(7, u.getPassword());
-            ps.setString(8, "SALT"); //we will do this later
+            ps.setString(8, u.getSalt()); //we will do this later
 
             ps.executeUpdate();
             DatabaseUtility.commitTransaction();

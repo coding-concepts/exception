@@ -11,6 +11,7 @@ import validator.RegistrationDataValidator;
 import validator.Validator;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * <code>TestRegistrationDataValidator</code> class is
@@ -32,10 +33,15 @@ public class TestRegistrationDataValidator {
     public static void main(String[] args){
 
         UserRepositoryImpl repo = new UserRepositoryImpl();
+
         User u = repo.findByEmailId("a@a.com");
 
-        u.setFirstName("P");
-        u.setLastName("G");
+        u.setPassword("password2");
+        u.setFirstName("FirstName2");
+        u.setLastName("LastName2");
+        u.setDob(new Date());
+        u.setGender('M');
+        u.setSalt("SALT_2");
         u.setPhone(9876543211L);
 
         try {
