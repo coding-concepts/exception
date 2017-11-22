@@ -82,8 +82,29 @@ public class BookCopyRepositoryImpl implements BookCopyRepository {
         if (dbBookCopy != null){
             return dbBookCopy;
         }
-        //todo insert into bookcopy (?, ? .....
-        return null;
+        else {
+            return (insert(bookCopy));
+        }
+    }
+
+    private BookCopy insert(BookCopy bookCopy) {
+        String query = "INSERT INTO BOOK_COPY (BOOK_ID, ID)  VALUES (?, ?)";
+
+        try {
+            PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
+            ps.setLong(1, bookCopy.getBookId());
+            ps.setLong(2, bookCopy.getId());
+            ps.executeUpdate();
+            DatabaseUtility.commitTransaction();
+
+        } catch (SQLException e) {
+            DatabaseUtility.rollbackTransaction();
+            e.printStackTrace();
+            throw new SystemException("Exception Happened while trying to insert a BookCopy: "+ bookCopy.getId());
+        } finally {
+            DatabaseUtility.releaseConnection();
+        }
+        return bookCopy;
     }
 
     @Override

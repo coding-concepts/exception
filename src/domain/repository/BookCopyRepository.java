@@ -33,4 +33,5 @@ public interface BookCopyRepository {
      *
      */
     List<BookCopy> findAll();
+
 }

@@ -11,21 +11,17 @@ public class BookCopy {
 
     private long id;
 
-
     private long bookId;
 
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
-
     public long getBookId() {
         return bookId;
     }
-
     public void setBookId(long bookId) {
         this.bookId = bookId;
     }
