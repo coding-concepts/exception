@@ -6,12 +6,12 @@ import exception.ValidationError;
 import exception.ValidationException;
 import service.DatabaseUtility;
 
-import java.awt.print.Book;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BookCopyRepositoryImpl implements BookCopyRepository {
 
@@ -78,6 +78,12 @@ public class BookCopyRepositoryImpl implements BookCopyRepository {
                     new ValidationError("Book", "null. Please enter value", "Can't Save a null book"));
         }
 
+        if (bookCopy.getId() == null) {
+            //now I will generate the new book id
+            bookCopy.setId(getRandomId());
+
+        }
+
         BookCopy dbBookCopy  = findById(bookCopy.getId());
         if (dbBookCopy != null){
             return dbBookCopy;
@@ -88,12 +94,11 @@ public class BookCopyRepositoryImpl implements BookCopyRepository {
     }
 
     private BookCopy insert(BookCopy bookCopy) {
-        String query = "INSERT INTO BOOK_COPY (BOOK_ID, ID)  VALUES (?, ?)";
-
+        String query = "INSERT INTO BOOK_COPY (ID, BOOK_ID)  VALUES (?, ?)";
         try {
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
-            ps.setLong(1, bookCopy.getBookId());
-            ps.setLong(2, bookCopy.getId());
+            ps.setLong(1, bookCopy.getId());
+            ps.setLong(2, bookCopy.getBookId());
             ps.executeUpdate();
             DatabaseUtility.commitTransaction();
 
@@ -103,6 +108,9 @@ public class BookCopyRepositoryImpl implements BookCopyRepository {
             throw new SystemException("Exception Happened while trying to insert a BookCopy: "+ bookCopy.getId());
         } finally {
             DatabaseUtility.releaseConnection();
+        }
+        if (bookCopy.getBookId() == 0l){
+            throw new SystemException("Cannot pass null ");
         }
         return bookCopy;
     }
@@ -129,5 +137,32 @@ public class BookCopyRepositoryImpl implements BookCopyRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
+    }
+
+    @Override
+    public void delete(BookCopy bookCopy) throws ValidationException {
+        BookCopy dbBookCopy = findById(bookCopy.getId());
+        if (dbBookCopy == null){
+            throw new ValidationException("Book Copy Does not exist!", new ValidationError("bookCopy", "business-error", "BookCopy does not exist"));
+        }
+        String query = "DELETE FROM BOOK_COPY WHERE ID = ? ";
+        try {
+            PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
+            ps.setLong(1, bookCopy.getId());
+            ps.executeUpdate();
+            DatabaseUtility.commitTransaction();
+        } catch (SQLException e) {
+            DatabaseUtility.rollbackTransaction();
+            e.printStackTrace();
+            throw new SystemException("Exception Happened while trying to delete a bookCopy: "+ bookCopy.getId());
+        } finally {
+            DatabaseUtility.releaseConnection();
+        }
+    }
+
+
+    private Long getRandomId() {
+        Random r = new Random();
+        return (long)r.nextInt(1_00_00_00);
     }
 }

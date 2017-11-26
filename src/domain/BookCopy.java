@@ -9,20 +9,20 @@ public class BookCopy {
      BOOK_ID BIGINT NOT NULL, -- the book id. Foreign key to book table(ben)
      */
 
-    private long id;
+    private Long id;
 
-    private long bookId;
+    private Long bookId;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
-    public long getBookId() {
+    public Long getBookId() {
         return bookId;
     }
-    public void setBookId(long bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
 }
