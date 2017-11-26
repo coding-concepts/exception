@@ -6,6 +6,7 @@ package service.impl;
 import builder.UserProfileBuilder;
 import data.RegistrationData;
 import data.UserProfile;
+import domain.User;
 import domain.repository.UserRepository;
 import exception.ValidationError;
 import exception.ValidationException;
@@ -44,13 +45,13 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void registerUser(RegistrationData data) throws ValidationException {
-        runBusinessValidation(data);
-        //add the user data to table
-        userTable.put(data.getEmail(), data);
+//        runBusinessValidation(data);
+//        //add the user data to table
+//        userTable.put(data.getEmail(), data);
 
 //        //now we need to Make a user Objet. Lets use the Builder Class
-//        User user = new UserProfileBuilder().registrationData(data).buildUser();
-//        userRepository.save(user);
+        User user = new UserProfileBuilder().registrationData(data).buildUser();
+        userRepository.save(user);
     }
 
     /**
