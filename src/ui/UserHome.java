@@ -34,43 +34,57 @@ public class UserHome implements IScreen {
 
     private JPanel bodyPanel;
 
-    private JLabel fullName;
-
     private JLabel fullNameValue;
-
-    private JLabel email;
 
     private JLabel emailValue;
 
-    private JLabel dob;
-
     private JLabel dobValue;
 
-    private JLabel phone;
-
     private JLabel phoneValue;
-
-    private JLabel gender;
 
     private JLabel genderValue;
 
     private JButton btnLgOut;
 
+    private JButton addBookButton;
+
+    private JButton updateBookButton;
+
+    private JButton deleteBookButton;
+
+    private JButton button1;
+
+    private JButton button2;
+
+    private JButton button3;
+
+    public UserHome(){
+        this(LoginScreen.loggedOnUser);
+
+    }
 
 
 
     public UserHome(UserProfile profile){
-        userNameLbl.setText(profile.getFirstName());
-        fullNameValue.setText(profile.getFirstName() + " " +profile.getLastName());
-        emailValue.setText(profile.getEmail());
-        dobValue.setText(profile.getDob().toString());
-        phoneValue.setText(profile.getPhone()+"");
-        genderValue.setText(profile.getGender());
+        welcomeLbl.setText("Welcome : "+profile.getFirstName());
+//        fullNameValue.setText(profile.getFirstName() + " " +profile.getLastName());
+//        emailValue.setText(profile.getEmail());
+//        dobValue.setText(profile.getDob().toString());
+//        phoneValue.setText(profile.getPhone()+"");
+//        genderValue.setText(profile.getGender());
 
         setupListeners();
     }
+    private void gotoAddBookForm() {
+        FrameUtility.displayNextScreen(this, new AddBookForm(), "Add a Book");
+    }
 
-
+    private void gotoUpdateBookForm() {
+        FrameUtility.displayNextScreen(this, new UpdateBokForm(), "Update a Book");
+    }
+    private void gotoDeleteBookForm() {
+        FrameUtility.displayNextScreen(this, new DeleteBookForm(), "Update a Book");
+    }
 
     private void setupListeners() {
         btnLgOut.addActionListener(new ActionListener() {
@@ -83,7 +97,26 @@ public class UserHome implements IScreen {
                 logout();
             }
         });
+
+        addBookButton.addActionListener(new ActionListener() {
+            @Override public void actionPerformed(ActionEvent e) {
+                gotoAddBookForm();
+            }
+        });
+
+        updateBookButton.addActionListener(new ActionListener() {
+            @Override public void actionPerformed(ActionEvent e) {
+                gotoUpdateBookForm();
+            }
+        });
+        deleteBookButton.addActionListener(new ActionListener() {
+            @Override public void actionPerformed(ActionEvent e) {
+                gotoDeleteBookForm();
+            }
+        });
     }
+
+
 
     private void logout() {
         FrameUtility.displayNextScreen(this, new LoginScreen(), "Login Screen");

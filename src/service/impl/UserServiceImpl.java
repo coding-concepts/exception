@@ -64,21 +64,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfile validateUser(String username, String password) throws ValidationException {
 
-        RegistrationData data = userTable.get(username);
-        if (data != null) {
-            if (password.equals(data.getPassword())){
-                UserProfile profile = new UserProfileBuilder().registrationData(data).build();
-                return profile;
-            }
-        }
-//
-//        User u = userRepository.findByEmailId(username);
-//        if (u != null) {
-//            if (password.equals(u.getPassword())){
-//                UserProfile profile = new UserProfileBuilder().user(u).build2();
+//        RegistrationData data = userTable.get(username);
+//        if (data != null) {
+//            if (password.equals(data.getPassword())){
+//                UserProfile profile = new UserProfileBuilder().registrationData(data).build();
 //                return profile;
 //            }
 //        }
+//
+        User u = userRepository.findByEmailId(username);
+        if (u != null) {
+            if (password.equals(u.getPassword())){
+                UserProfile profile = new UserProfileBuilder().user(u).build2();
+                return profile;
+            }
+        }
 
         throw new ValidationException("Login Failed", new ValidationError("username/password", "mismatch", "provide a valid login"));
     }

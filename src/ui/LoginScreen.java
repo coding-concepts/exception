@@ -47,6 +47,7 @@ public class LoginScreen  implements IScreen {
 
     private JButton btnLogin;
 
+    public static UserProfile loggedOnUser = null;
 
 
     public LoginScreen() {
@@ -79,6 +80,7 @@ public class LoginScreen  implements IScreen {
         UserService userService = ServiceFactory.getUserService();
         try {
             UserProfile profile = userService.validateUser(txtUser.getText(), new String(txtPassword.getPassword()));
+            loggedOnUser = profile;
             showUserHome(profile);
         } catch (ValidationException e) {
             JOptionPane.showMessageDialog(mainPanel, e.getMessage());
