@@ -22,8 +22,8 @@ import java.util.Calendar;
  * @since Sep 28, 2017
  */
 public class DateLabelFormatter extends JFormattedTextField.AbstractFormatter {
-
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+    private String datePattern = "yyyy-MM-dd";
+    private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
     @Override
     public Object stringToValue(String text) throws ParseException {

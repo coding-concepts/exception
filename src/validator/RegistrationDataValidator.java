@@ -27,9 +27,9 @@ import java.util.List;
  */
 public class RegistrationDataValidator implements Validator {
 
-//    private static volatile RegistrationDataValidator me; //lazy initialization
+    private static volatile RegistrationDataValidator me; //lazy initialization
 
-    private static final RegistrationDataValidator me = new RegistrationDataValidator() ; //eager
+    //private static final RegistrationDataValidator me = new RegistrationDataValidator() ; //eager
 
     private RegistrationDataValidator() {
 
@@ -37,9 +37,9 @@ public class RegistrationDataValidator implements Validator {
 
 
     public static RegistrationDataValidator getInstance() {
-//        if (me == null) {
-//            me = new RegistrationDataValidator();
-//        }
+        if (me == null) {
+            me = new RegistrationDataValidator();
+        }
         return me;
     }
 
