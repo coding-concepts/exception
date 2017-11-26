@@ -1,6 +1,4 @@
-import domain.Book;
 import domain.BookCopy;
-import domain.User;
 import domain.repository.BookCopyRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,8 +6,10 @@ import service.ServiceFactory;
 
 import java.util.Random;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 public class TestBookCopyRepository {
     private BookCopyRepository repository;

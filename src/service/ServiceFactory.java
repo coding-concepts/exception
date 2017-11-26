@@ -3,15 +3,13 @@
  */
 package service;
 
-import domain.BookCopy;
 import domain.repository.BookCopyRepository;
 import domain.repository.BookCopyRepositoryImpl;
+import domain.repository.BookRespository;
+import domain.repository.BookRespositoryImpl;
 import domain.repository.UserRepository;
 import domain.repository.UserRepositoryImpl;
-import exception.ValidationException;
 import service.impl.UserServiceImpl;
-
-import java.util.List;
 
 /**
  * <code>ServiceFactory</code> class is  Factory class to give out Services.
@@ -39,6 +37,10 @@ public class ServiceFactory {
 
     public static BookCopyRepository getBookCopyRepository(){
         return new BookCopyRepositoryImpl();
+    }
+
+    public static BookRespository getBookRepository(){
+        return new BookRespositoryImpl();
     }
 }
 
