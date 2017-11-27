@@ -29,18 +29,18 @@ RETURNED_DATE DATE,
      */
 
     private Long id;
-    private Long bookId;
+    private Long bookCopyId;
     private Long userId;
     private Date issueDate;
     private Date dueDate;
     private Date returnedDate;
 
-    public Long getBookId() {
-        return bookId;
+    public Long getBookCopyId() {
+        return bookCopyId;
     }
 
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
+    public void setBookCopyId(Long bookCopyId) {
+        this.bookCopyId = bookCopyId;
     }
 
     public Date getDueDate() {

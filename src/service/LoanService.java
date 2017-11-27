@@ -62,15 +62,6 @@ public interface LoanService {
      */
     void returnBook(Long bookCopyId);
 
-
-    /**
-     * Gets the available copy count of the bookId. Used for loan.
-     * @param bookId  BookId
-     * @return number of available copies
-     * @throws BookNotFoundException
-     */
-    int getNumberOfAvalableCopies(Long bookId) throws BookNotFoundException;
-
     /**
      * Gets the loaned copy count of the bookId.
      * @param bookId
@@ -79,12 +70,6 @@ public interface LoanService {
      */
     int getNumberOfLoanedCopies(Long bookId) throws BookNotFoundException;
 
-    /**
-     * Gets the total copy count of the bookId.
-     * @param bookId
-     * @return  number of total copies
-     * @throws BookNotFoundException
-     */
-    int getNumberOfTotalCopies(Long bookId) throws BookNotFoundException;
+
 
 }

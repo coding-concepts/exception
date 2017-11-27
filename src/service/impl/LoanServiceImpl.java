@@ -3,7 +3,9 @@
  */
 package service.impl;
 
+import builder.LoanDataBuilder;
 import data.LoanData;
+import domain.Loan;
 import domain.repository.BookCopyRepository;
 import domain.repository.BookRespository;
 import domain.repository.LoanRepository;
@@ -46,12 +48,16 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public LoanData issueBook(Long bookCopyId, Long userId) {
+
+
         return null;
     }
 
     @Override
     public LoanData getLoanById(Long loanId) {
-        return null;
+        Loan loan =  loanRepository.findById(loanId);
+        LoanData data = new LoanDataBuilder().loan(loan).buildLoanData();
+        return data;
     }
 
     @Override
@@ -75,19 +81,11 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public int getNumberOfAvalableCopies(Long bookId) throws BookNotFoundException {
-        return 10;
-    }
-
-    @Override
     public int getNumberOfLoanedCopies(Long bookId) throws BookNotFoundException {
         return 5;
     }
 
-    @Override
-    public int getNumberOfTotalCopies(Long bookId) throws BookNotFoundException {
-        return 15;
-    }
+
 }
 
 

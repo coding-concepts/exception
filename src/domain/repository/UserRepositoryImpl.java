@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements  UserRepository {
     @Override
     public User findByEmailId(String emailId) {
 
-        String query = "SELECT  EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT FROM USER WHERE EMAIL = ? ";
+        String query = "SELECT  ID, EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT FROM USER WHERE EMAIL = ? ";
 
         try {
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
@@ -41,6 +41,7 @@ public class UserRepositoryImpl implements  UserRepository {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 User u = new User();
+                u.setId(rs.getLong("ID"));
                 u.setEmail(rs.getString("EMAIL"));
                 u.setFirstName(rs.getString("FIRST_NAME"));
                 u.setLastName(rs.getString("LAST_NAME"));
@@ -80,8 +81,6 @@ public class UserRepositoryImpl implements  UserRepository {
     }
 
     private User update(User oldUser, User newUser) {
-        User returnUser = new User();
-
         String query = "Update USER SET  FIRST_NAME = ?, LAST_NAME = ?, GENDER = ?, PHONE = ?, DOB = ? , PASSWORD = ?, SALT = ?  WHERE EMAIL = ?  ";
 
         try {
@@ -89,70 +88,53 @@ public class UserRepositoryImpl implements  UserRepository {
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
             //first name
             if (newUser.getFirstName() != null && !"".equals(newUser.getFirstName() )) {
-                returnUser.setFirstName(newUser.getFirstName());
                 ps.setString(1, newUser.getFirstName());
             } else {
-                //keep the same
-                returnUser.setFirstName(oldUser.getFirstName());
                 ps.setString(1, oldUser.getFirstName());
             }
             //last name
             if (newUser.getLastName() != null && !"".equals(newUser.getLastName() )) {
-                returnUser.setLastName(newUser.getLastName());
                 ps.setString(2, newUser.getLastName());
             } else {
-                //keep the same
-                returnUser.setLastName(oldUser.getLastName());
                 ps.setString(2, oldUser.getLastName());
             }
 
             //gender
             if (newUser.getGender() != ' '){
-                returnUser.setGender(newUser.getGender());
                 ps.setString(3, String.valueOf(newUser.getGender()));
             } else {
-                returnUser.setGender(oldUser.getGender());
                 ps.setString(3, String.valueOf(oldUser.getGender()));
             }
 
             //phone
             if (newUser.getPhone() != null){
-                returnUser.setPhone(newUser.getPhone());
                 ps.setLong(4, newUser.getPhone());
             } else {
-                returnUser.setPhone(oldUser.getPhone());
                 ps.setLong(4, oldUser.getPhone());
             }
 
             //DOB
             if (newUser.getDob() != null){
-                returnUser.setDob(newUser.getDob());
                 ps.setDate(5, new java.sql.Date(newUser.getDob().getTime()) );
             } else {
-                returnUser.setDob(oldUser.getDob());
                 ps.setDate(5, new java.sql.Date(oldUser.getDob().getTime()) );
             }
 
             //password
             if (newUser.getPassword() != null){
-                returnUser.setPassword(newUser.getPassword());
                 ps.setString(6, newUser.getPassword() );
             } else {
-                returnUser.setPassword(oldUser.getPassword());
                 ps.setString(6, oldUser.getPassword() );
             }
 
             //password
             if (newUser.getSalt() != null){
-                returnUser.setSalt(newUser.getSalt());
                 ps.setString(7, newUser.getSalt() );
             } else {
-                returnUser.setSalt(oldUser.getSalt());
                 ps.setString(7, oldUser.getSalt() );
             }
 
             ps.setString(8, oldUser.getEmail());
-            returnUser.setEmail(oldUser.getEmail());
 
             //now Run this in database server
 
@@ -169,15 +151,11 @@ public class UserRepositoryImpl implements  UserRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
-
-        return returnUser;
+        return findByEmailId(oldUser.getEmail());
 
     }
 
     private User insert(User u) {
-
-
-
         String query = "INSERT INTO USER"
                 + "(EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT ) "
                 + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -203,7 +181,7 @@ public class UserRepositoryImpl implements  UserRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
-        return u;
+        return findByEmailId(u.getEmail());
     }
 
     @Override
@@ -238,13 +216,14 @@ public class UserRepositoryImpl implements  UserRepository {
 
         List<User> users = new ArrayList<>();
 
-        String query = "SELECT  EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT FROM USER ";
+        String query = "SELECT ID,  EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT FROM USER ";
 
         try {
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 User u = new User();
+                u.setId(rs.getLong("ID"));
                 u.setEmail(rs.getString("EMAIL"));
                 u.setFirstName(rs.getString("FIRST_NAME"));
                 u.setLastName(rs.getString("LAST_NAME"));

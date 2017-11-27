@@ -12,6 +12,7 @@ import domain.repository.BookRespository;
 import exception.ValidationError;
 import exception.ValidationException;
 import service.BookService;
+import service.LoanService;
 import service.ServiceFactory;
 import util.Utilties;
 
@@ -35,10 +36,12 @@ public class BookServiceImpl implements BookService {
 
     private BookCopyRepository bookCopyRepository;
     private BookRespository bookRespository;
+    private LoanService loanService;
 
     public BookServiceImpl() {
         bookCopyRepository = ServiceFactory.getBookCopyRepository();
         bookRespository = ServiceFactory.getBookRepository();
+        loanService  = ServiceFactory.getLoanService();
     }
 
     @Override
@@ -98,6 +101,20 @@ public class BookServiceImpl implements BookService {
                     new ValidationError("book", "business-error", "Can't save a book with Id"));
         }
     }
+    @Override
+    public int getNumberOfTotalCopies(Long bookId) {
+        List books = bookCopyRepository.findByBookId(bookId);
+        return (books == null ? 0 : books.size());
+    }
+
+
+    @Override
+    public int getNumberOfAvailableCopies(Long bookId) {
+        int loanedCopies = loanService.getNumberOfLoanedCopies(bookId);
+        int totalCopies =  getNumberOfTotalCopies( bookId);
+        return (totalCopies - loanedCopies);
+    }
+
 }
 
 

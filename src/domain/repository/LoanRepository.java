@@ -29,6 +29,13 @@ public interface LoanRepository {
     Loan save(Loan loan);
 
     /**
+     * Finds a loan with loan id.
+     * @param LoanId loan id
+     * @return loan.
+     */
+    Loan findById(Long LoanId);
+
+    /**
      * Returns a loan
      * @param LoanId  ID
      * @return Loan
@@ -47,7 +54,7 @@ public interface LoanRepository {
      * @param bookCopyId book copy id.
      * @return ListOfLoan.
      */
-    List<Loan> findCurrentLoanByBookCopyId(Long bookCopyId);
+    Loan findCurrentLoanByBookCopyId(Long bookCopyId);
 
     /**
      * Find outstanding Loans.
@@ -74,23 +81,11 @@ public interface LoanRepository {
     int countOutstandingLoans();
 
     /**
-     * Gets the available copy count of the bookId. Used for loan.
-     * @param bookId  BookId
-     * @return number of available copies
-     */
-    int getNumberOfAvalableCopies(Long bookId);
-
-    /**
      * Gets the loaned copy count of the bookId.
      * @param bookId
      * @return  number of Loaned copies
      */
     int getNumberOfLoanedCopies(Long bookId);
 
-    /**
-     * Gets the total copy count of the bookId.
-     * @param bookId
-     * @return  number of total copies
-     */
-    int getNumberOfTotalCopies(Long bookId);
+
 }
