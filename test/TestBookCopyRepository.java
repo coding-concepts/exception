@@ -8,8 +8,12 @@ import service.ServiceFactory;
 
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static com.sun.tools.internal.ws.wsdl.parser.Util.fail;
+import static com.sun.xml.internal.ws.dump.LoggingDumpTube.Position.Before;
+import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBookCopyRepository {
     private BookCopyRepository repository;
