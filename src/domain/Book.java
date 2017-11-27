@@ -3,6 +3,11 @@ package domain;
 public class Book {
     private long id;
     private String  title;
+    private String  Author;
+
+    public String getAuthor() {return Author;}
+
+    public void setAuthor(String author) {Author = author;}
 
     public long getId() {
         return id;
