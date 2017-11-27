@@ -22,14 +22,14 @@ import exception.ValidationException;
 public interface BookService {
 
     /**
-     * Adds a book.]
+     * Adds a book. this book is added with a default quantity of 1.
      * @param bookData  bookData
-     * @return Book Data with newly created Ids.
+     * @return Book Data with newly created Id.
      */
     BookData addBook(BookData bookData) throws ValidationException;
 
     /**
-     * Adds a book.
+     * Adds a book. You can call this method with quantity and it will create that many book copies.
      * @param bookData  bookData
      * @param quantity  quantity
      * @return
@@ -39,14 +39,12 @@ public interface BookService {
 
 
     /**
-     * Adds book copies
+     * Adds book copies. Given a book id that exists, you can give how many new book copies you want to save.
      * @param bookId  bookId
      * @param  quantity quantity
      * @return Book Data with newly created Ids.
      */
     BookData addBookCpoies(long bookId, int quantity) throws ValidationException;
-
-
 
 
 }

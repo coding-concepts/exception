@@ -30,6 +30,7 @@ PASSWORD VARCHAR(255),
 SALT  VARCHAR(255),
 PRIMARY KEY (EMAIL)
      */
+    private Long id;
 
     private String firstName;
 
@@ -109,6 +110,14 @@ PRIMARY KEY (EMAIL)
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
 

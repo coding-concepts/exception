@@ -7,8 +7,12 @@ import domain.repository.BookCopyRepository;
 import domain.repository.BookCopyRepositoryImpl;
 import domain.repository.BookRespository;
 import domain.repository.BookRespositoryImpl;
+import domain.repository.LoanRepository;
+import domain.repository.LoanRepositoryImpl;
 import domain.repository.UserRepository;
 import domain.repository.UserRepositoryImpl;
+import service.impl.BookServiceImpl;
+import service.impl.LoanServiceImpl;
 import service.impl.UserServiceImpl;
 
 /**
@@ -30,6 +34,13 @@ public class ServiceFactory {
         return new UserServiceImpl();
     }
 
+    public static LoanService getLoanService(){
+        return new LoanServiceImpl();
+    }
+
+    public static BookService getBookService(){
+        return new BookServiceImpl();
+    }
 
     public static UserRepository getUserRepository() {
         return new UserRepositoryImpl();
@@ -41,6 +52,10 @@ public class ServiceFactory {
 
     public static BookRespository getBookRepository(){
         return new BookRespositoryImpl();
+    }
+
+    public static LoanRepository getLoanRepository() {
+        return new LoanRepositoryImpl();
     }
 }
 
