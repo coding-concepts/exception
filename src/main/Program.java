@@ -4,6 +4,7 @@
 package main;
 
 import ui.LoginScreen;
+import ui.Search;
 import util.FrameUtility;
 
 import javax.swing.*;
