@@ -3,9 +3,8 @@
  */
 package builder;
 
+import data.BookCopyData;
 import data.LoanData;
-import domain.Book;
-import domain.BookCopy;
 import domain.Loan;
 
 /**
@@ -23,27 +22,26 @@ import domain.Loan;
  */
 public class LoanDataBuilder {
     private Loan loan;
-    private Book book;
-    private BookCopy bookCopy;
+
 
     public LoanDataBuilder loan(Loan loan) {
         this.loan = loan;
         return this;
     }
 
-    public LoanDataBuilder bookCopy(BookCopy bookCopy) {
-        this.bookCopy = bookCopy;
-        return this;
-    }
-    public LoanDataBuilder book(Book book) {
-        this.book = book;
-        return this;
-    }
-
     public LoanData buildLoanData() {
         LoanData data = new LoanData();
 
-        //TODO FILL THIS UP.
+        if (loan != null) {
+            data.setUserId(loan.getUserId());
+            data.setLoanId(loan.getId());
+            data.setReturnedDate(loan.getReturnedDate());
+            data.setDueDate(loan.getDueDate());
+            data.setIssueDate(loan.getIssueDate());
+            BookCopyData bcd  = new BookCopyData();
+            bcd.setBookCopyId(loan.getBookCopyId());
+            data.setBookCopyData(bcd);
+        }
 
         return data;
     }
