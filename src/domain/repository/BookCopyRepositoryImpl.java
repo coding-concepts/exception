@@ -11,12 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class BookCopyRepositoryImpl implements BookCopyRepository {
 
     /**
-     /***
      *
      ID BIGINT NOT NULL  AUTO_INCREMENT, -- BOOK COPY ID
      BOOK_ID BIGINT NOT NULL, -- the book id. Foreign key to book table(ben)
@@ -78,24 +76,29 @@ public class BookCopyRepositoryImpl implements BookCopyRepository {
                     new ValidationError("Book", "null. Please enter value", "Can't Save a null book"));
         }
 
-        if (bookCopy.getId() == null) {
-            //now I will generate the new book id
-            bookCopy.setId(getRandomId());
-
+        if (bookCopy.getId() != null) {
+            BookCopy dbBookCopy  = findById(bookCopy.getId());
+            if (dbBookCopy != null){
+                return dbBookCopy;
+            }
         }
 
-        BookCopy dbBookCopy  = findById(bookCopy.getId());
-        if (dbBookCopy != null){
-            return dbBookCopy;
-        }
-        else {
-            return (insert(bookCopy));
-        }
+        return (insert(bookCopy));
+
     }
 
     private BookCopy insert(BookCopy bookCopy) {
-        String query = "INSERT INTO BOOK_COPY (ID, BOOK_ID)  VALUES (?, ?)";
+
+        if (bookCopy.getId() == null) {
+            bookCopy.setId(findMaxId() + 1);
+        }
+
+        String query = "";
+        query =  "INSERT INTO BOOK_COPY ( ID, BOOK_ID)  VALUES (?, ?)";
         try {
+
+
+
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
             ps.setLong(1, bookCopy.getId());
             ps.setLong(2, bookCopy.getBookId());
@@ -109,10 +112,27 @@ public class BookCopyRepositoryImpl implements BookCopyRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
-        if (bookCopy.getBookId() == 0l){
-            throw new SystemException("Cannot pass null ");
-        }
         return bookCopy;
+    }
+
+    private Long findMaxId() {
+        String query = "SELECT MAX(ID) FROM BOOK_COPY";
+
+
+        try {
+            PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getLong(1);
+            } else {
+                return 0L;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SystemException("Exception Happened while trying to findMaxId ");
+        } finally {
+            DatabaseUtility.releaseConnection();
+        }
     }
 
     @Override
@@ -160,9 +180,4 @@ public class BookCopyRepositoryImpl implements BookCopyRepository {
         }
     }
 
-
-    private Long getRandomId() {
-        Random r = new Random();
-        return (long)r.nextInt(1_00_00_00);
-    }
 }

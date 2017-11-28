@@ -34,7 +34,7 @@ public class DatabaseUtility {
 
     public static Connection getConnection() throws SystemException {
         try {
-            if (mysqlConnection == null ) {
+            if (mysqlConnection == null || mysqlConnection.isClosed()) {
 
                 Class.forName("com.mysql.jdbc.Driver");
                 mysqlConnection = DriverManager.getConnection(server, username, password);
@@ -48,7 +48,7 @@ public class DatabaseUtility {
             e.printStackTrace();
             throw new SystemException();
         }
-        return null;
+        return mysqlConnection;
     }
 
 
@@ -56,7 +56,7 @@ public class DatabaseUtility {
         if (mysqlConnection != null) {
             try {
                 mysqlConnection.close();
-                mysqlConnection = null;
+               // mysqlConnection = null;
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new SystemException();
@@ -77,9 +77,11 @@ public class DatabaseUtility {
     }
 
     public  static void rollbackTransaction()  {
-        if (mysqlConnection != null){
+        if (mysqlConnection != null ){
             try {
-                mysqlConnection.rollback();
+                if (!mysqlConnection.isClosed()) {
+                    mysqlConnection.rollback();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new SystemException();
