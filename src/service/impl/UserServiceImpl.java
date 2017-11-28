@@ -45,11 +45,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void registerUser(RegistrationData data) throws ValidationException {
-//        runBusinessValidation(data);
-//        //add the user data to table
-//        userTable.put(data.getEmail(), data);
-
-//        //now we need to Make a user Objet. Lets use the Builder Class
+        runBusinessValidation(data);
+        //now we need to Make a user Objet. Lets use the Builder Class
         User user = new UserProfileBuilder().registrationData(data).buildUser();
         userRepository.save(user);
     }
@@ -64,14 +61,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfile validateUser(String username, String password) throws ValidationException {
 
-//        RegistrationData data = userTable.get(username);
-//        if (data != null) {
-//            if (password.equals(data.getPassword())){
-//                UserProfile profile = new UserProfileBuilder().registrationData(data).build();
-//                return profile;
-//            }
-//        }
-//
         User u = userRepository.findByEmailId(username);
         if (u != null) {
             if (password.equals(u.getPassword())){
@@ -84,19 +73,10 @@ public class UserServiceImpl implements UserService {
     }
 
     private void runBusinessValidation(RegistrationData data) throws ValidationException {
-        //We may need to validate if the user is already registered
-        if (userTable.containsKey(data.getEmail())){
-            throw new ValidationException("User is registered.",
-                    new ValidationError("email", "registered", "User is registered."));
-        }
-/*
-
         if (userRepository.findByEmailId(data.getEmail()) != null){
             throw new ValidationException("User is registered.",
                     new ValidationError("email", "registered", "User is registered."));
         }
-  */
-
     }
 
 }

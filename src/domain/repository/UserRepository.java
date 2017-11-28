@@ -29,4 +29,6 @@ public interface UserRepository {
     void delete(User u)  throws ValidationException;
 
     List<User> getUsers();
+
+    User findById(Long userId);
 }

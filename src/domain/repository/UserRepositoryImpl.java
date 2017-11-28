@@ -244,6 +244,37 @@ public class UserRepositoryImpl implements  UserRepository {
 
         return users;
     }
+
+    @Override
+    public User findById(Long userId) {
+
+        String query = "SELECT  ID, EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT FROM USER WHERE ID = ? ";
+
+        try {
+            PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
+            ps.setLong(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                User u = new User();
+                u.setId(rs.getLong("ID"));
+                u.setEmail(rs.getString("EMAIL"));
+                u.setFirstName(rs.getString("FIRST_NAME"));
+                u.setLastName(rs.getString("LAST_NAME"));
+                u.setGender(rs.getString("GENDER").charAt(0));
+                u.setPhone(rs.getLong("PHONE"));
+                u.setDob(rs.getDate("DOB"));
+                u.setPassword(rs.getString("PASSWORD"));
+                u.setSalt(rs.getString("SALT"));
+                return u;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SystemException("Exception Happened while trying to find  a user: "+ userId);
+        } finally {
+            DatabaseUtility.releaseConnection();
+        }
+        return null;
+    }
 }
 
 

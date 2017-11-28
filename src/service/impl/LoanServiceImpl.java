@@ -5,16 +5,25 @@ package service.impl;
 
 import builder.LoanDataBuilder;
 import data.LoanData;
+import domain.BookCopy;
 import domain.Loan;
+import domain.User;
 import domain.repository.BookCopyRepository;
 import domain.repository.BookRespository;
 import domain.repository.LoanRepository;
 import domain.repository.UserRepository;
 import exception.BookNotFoundException;
+import exception.ValidationError;
+import exception.ValidationException;
 import service.LoanService;
 import service.ServiceFactory;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import static java.util.Calendar.DATE;
 
 /**
  * <code>LoanServiceImpl</code> class is  LImplementtion of loan service
@@ -39,6 +48,8 @@ public class LoanServiceImpl implements LoanService {
 
     private UserRepository userRepository;
 
+    public static final int ISSUE_DAYS = 21;
+
     public LoanServiceImpl() {
         loanRepository = ServiceFactory.getLoanRepository();
         bookRespository = ServiceFactory.getBookRepository();
@@ -47,10 +58,33 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public LoanData issueBook(Long bookCopyId, Long userId) {
+    public LoanData issueBook(Long bookCopyId, Long userId) throws ValidationException {
+        BookCopy bookCopy  = bookCopyRepository.findById(bookCopyId);
+        User u = userRepository.findById(userId);
 
+        LoanData data = null;
 
-        return null;
+        if (bookCopy == null || u == null){
+            throw new ValidationException("Can't loan a book. Either the copy or the user is invalid.",
+                    new ValidationError("book", "invalid", "Can't loan a book. Either the copy or the user is invalid.."));
+        }
+
+        if (bookCopy != null){
+            //see if it is already Loaned out.
+            Loan currentLoan = loanRepository.findCurrentLoanByBookCopyId(bookCopyId);
+            if (currentLoan != null){
+                throw new ValidationException("Can't loan a book that is already loaned.",
+                        new ValidationError("book", "already loaned", "Can't loan a book that is already loaned."));
+            }
+            Loan loan = new Loan();
+            loan.setBookCopyId(bookCopyId);
+            loan.setIssueDate(getCurrentDate());
+            loan.setDueDate(getDateFromNow(ISSUE_DAYS));
+            loan.setUserId(userId);
+            loan = loanRepository.save(loan);
+            data = new LoanDataBuilder().loan(loan).buildLoanData();
+        }
+        return data;
     }
 
     @Override
@@ -62,27 +96,73 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public List<LoanData> getLoansByBookCopyId(Long bookCopyId) {
-        return null;
+        List<LoanData> loanDataList = new ArrayList<>();
+        List<Loan> loans = loanRepository.findAllLoansByCopyId(bookCopyId);
+
+        if (loans != null && !loans.isEmpty()){
+            for (Loan loan : loans){
+                LoanData data = new LoanDataBuilder().loan(loan).buildLoanData();
+                loanDataList.add(data);
+            }
+        }
+        return loanDataList;
     }
 
     @Override
     public List<LoanData> getOutstandingLoans() {
-        return null;
+        List<LoanData> loanDataList = new ArrayList<>();
+        List<Loan> loans = loanRepository.findOutstandingLoans();
+
+        if (loans != null && !loans.isEmpty()){
+            for (Loan loan : loans){
+                LoanData data = new LoanDataBuilder().loan(loan).buildLoanData();
+                loanDataList.add(data);
+            }
+        }
+        return loanDataList;
     }
 
     @Override
     public List<LoanData> getAllLoans() {
-        return null;
+        List<LoanData> loanDataList = new ArrayList<>();
+        List<Loan> loans = loanRepository.findAllLoans();
+
+        if (loans != null && !loans.isEmpty()){
+            for (Loan loan : loans){
+                LoanData data = new LoanDataBuilder().loan(loan).buildLoanData();
+                loanDataList.add(data);
+            }
+        }
+        return loanDataList;
     }
 
     @Override
-    public void returnBook(Long bookCopyId) {
+    public void returnBook(Long bookCopyId) throws ValidationException {
+        //find the loan id.
+        Loan loan  = loanRepository.findCurrentLoanByBookCopyId(bookCopyId);
+        if (loan != null){
+            loan  = loanRepository.returnBook(loan.getId());
+            return;
+        }
 
+        throw new ValidationException("Can't return a book that is not loaned.",
+                new ValidationError("book", "not loaned", "Can't return a book that is not loaned"));
     }
 
     @Override
     public int getNumberOfLoanedCopies(Long bookId) throws BookNotFoundException {
-        return 5;
+        return loanRepository.getNumberOfLoanedCopies(bookId);
+    }
+
+    private Date getCurrentDate() {
+        Calendar cal = Calendar.getInstance();
+        return cal.getTime();
+    }
+
+    private Date getDateFromNow(int howManyDays){
+        Calendar cal = Calendar.getInstance();
+        cal.add(DATE, howManyDays);
+        return cal.getTime();
     }
 
 

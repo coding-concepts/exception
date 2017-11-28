@@ -29,7 +29,28 @@ import java.util.List;
 public class LoanRepositoryImpl implements LoanRepository {
     @Override
     public Loan save(Loan loan) {
-        return null;
+        String query  = "INSERT INTO LOAN (BOOK_COPY_ID , USER_ID, ISSUE_DATE, DUE_DATE) VALUES (?, ?, ?, ?)";
+        try{
+            PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
+            ps.setLong(1, loan.getBookCopyId());
+            ps.setLong(2, loan.getUserId());
+            if (loan.getIssueDate() != null) {
+                ps.setDate(3, new java.sql.Date(loan.getIssueDate().getTime()));
+            }
+            if (loan.getIssueDate() != null) {
+                ps.setDate(4, new java.sql.Date(loan.getDueDate().getTime()));
+            }
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            DatabaseUtility.rollbackTransaction();
+            e.printStackTrace();
+            DatabaseUtility.rollbackTransaction();
+            throw new SystemException("Exception Happened while trying to get All Loans");
+        } finally {
+            DatabaseUtility.releaseConnection();
+        }
+        return findCurrentLoanByBookCopyId(loan.getBookCopyId());
     }
 
     @Override
@@ -62,7 +83,7 @@ public class LoanRepositoryImpl implements LoanRepository {
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(sb.toString());
             ps.setLong(1, LoanId);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()){
+            if (rs.next()){
                 loan = new Loan();
                 loan.setId(rs.getLong("ID"));
                 loan.setBookCopyId(rs.getLong("BOOK_COPY_ID"));
@@ -79,7 +100,7 @@ public class LoanRepositoryImpl implements LoanRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
-        return findById(LoanId);
+        return loan;
     }
 
     @Override

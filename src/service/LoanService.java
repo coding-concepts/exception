@@ -5,6 +5,7 @@ package service;
 
 import data.LoanData;
 import exception.BookNotFoundException;
+import exception.ValidationException;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface LoanService {
      * @param userId userId.
      * @return Loan Data Object after saving.
      */
-    LoanData issueBook(Long bookCopyId, Long userId);
+    LoanData issueBook(Long bookCopyId, Long userId) throws ValidationException;
 
     /**
      * Given a loan id, retrieves the loan data.
@@ -60,7 +61,7 @@ public interface LoanService {
      * Returns a book copy.
      * @param bookCopyId book copy id.
      */
-    void returnBook(Long bookCopyId);
+    void returnBook(Long bookCopyId) throws ValidationException ;
 
     /**
      * Gets the loaned copy count of the bookId.
