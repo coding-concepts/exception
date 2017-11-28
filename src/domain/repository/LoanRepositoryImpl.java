@@ -245,11 +245,11 @@ public class LoanRepositoryImpl implements LoanRepository {
     public int getNumberOfLoanedCopies(Long bookId) {
         int returnValue = 0;
         StringBuilder sb = new StringBuilder()
-        .append("SELECT COUNT(1)")
-        .append("FROM LOAN L,")
-        .append("        BOOK B,")
-        .append("        BOOK_COPY BC")
-        .append("WHERE L.BOOK_COPY_ID = BC.ID")
+        .append("SELECT COUNT(1) ")
+        .append(" FROM LOAN L, ")
+        .append("        BOOK B, ")
+        .append("        BOOK_COPY BC ")
+        .append(" WHERE L.BOOK_COPY_ID = BC.ID")
         .append("  AND L.DUE_DATE IS NOT NULL")
         .append("  AND L.RETURNED_DATE IS NULL")
         .append("  AND BC.BOOK_ID = B.ID")

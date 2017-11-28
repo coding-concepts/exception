@@ -49,6 +49,45 @@ public class TestBookService {
         assertEquals(5, bd.getBookCopyIds().size());
     }
 
+    @Test
+    public void testAddBookCopies()  throws ValidationException {
+        BookData bd = BookFactory.getBookData();
+        assertNull(bd.getBookCopyIds());
+        bd = bookService.addBook(bd);
+        assertNotNull(bd);
+        assertNotNull(bd.getBookCopyIds());
+        assertEquals(1, bd.getBookCopyIds().size());
+
+        BookData newBd = bookService.addBookCpoies(bd.getBookId(), 3);
+        assertNotNull(newBd);
+        assertNotNull(newBd.getBookCopyIds());
+        assertEquals(3, newBd.getBookCopyIds().size());
+    }
+
+    @Test
+    public void testTotalCopies () throws ValidationException {
+        BookData bd = BookFactory.getBookData();
+        assertNull(bd.getBookCopyIds());
+        bd = bookService.addBook(bd, 5);
+        assertNotNull(bd);
+        assertNotNull(bd.getBookCopyIds());
+        assertEquals(5, bd.getBookCopyIds().size());
+        assertEquals(5, bookService.getNumberOfTotalCopies(bd.getBookId()));
+    }
+
+
+
+    @Test
+    public void testAvailableCopies () throws ValidationException {
+        BookData bd = BookFactory.getBookData();
+        assertNull(bd.getBookCopyIds());
+        bd = bookService.addBook(bd, 5);
+        assertNotNull(bd);
+        assertNotNull(bd.getBookCopyIds());
+        assertEquals(5, bd.getBookCopyIds().size());
+        assertEquals(5, bookService.getNumberOfAvailableCopies(bd.getBookId()));
+    }
+
 }
 
 
