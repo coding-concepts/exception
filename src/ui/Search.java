@@ -16,7 +16,7 @@ import java.io.File;
 /**
  * Created by sniper825 on 11/26/17.
  */
-public class Search {
+public class Search implements IScreen {
     private JPanel TitlePanel;
     private JPanel SearchPanel;
     private JPanel ResultsPanel;
@@ -60,7 +60,7 @@ public class Search {
         });
     }
 
-    public Container getMainPanel() {
+    public JPanel getMainPanel() {
         return MainPanel;
     }
 
