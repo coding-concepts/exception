@@ -7,6 +7,8 @@ import data.BookData;
 import exception.BookNotFoundException;
 import exception.ValidationException;
 
+import java.util.List;
+
 /**
  * <code>BookService</code> class is  Service For Book
  * <p>
@@ -62,6 +64,15 @@ public interface BookService {
      * @throws BookNotFoundException
      */
     int getNumberOfAvailableCopies(Long bookId);
+
+    /**
+     * Selects book data based on serach criteria
+     * @param srchCriteria search Criteria
+     * @return book data list
+     */
+    List<BookData> SearchBook(String srchCriteria);
+
+
 }
 
 

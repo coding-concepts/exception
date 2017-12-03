@@ -115,6 +115,14 @@ public class BookServiceImpl implements BookService {
         return (totalCopies - loanedCopies);
     }
 
+    @Override
+    public List<BookData> SearchBook(String srchCriteria) {
+        List<BookData> books  =  new ArrayList<>();
+        //todo list
+
+        return books;
+    }
+
 }
 
 
