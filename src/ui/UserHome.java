@@ -52,7 +52,7 @@ public class UserHome implements IScreen {
 
     private JButton deleteBookButton;
 
-    private JButton button1;
+    private JButton searchButton;
 
     private JButton button2;
 
@@ -61,11 +61,16 @@ public class UserHome implements IScreen {
     public UserHome(){
         this(LoginScreen.loggedOnUser);
 
+
+    }
+
+    private void gotoSearchScreen() {
+        FrameUtility.displayNextScreen(this, new Search(), "Search for Books");
     }
 
 
-
     public UserHome(UserProfile profile){
+
         welcomeLbl.setText("Welcome : "+profile.getFirstName());
 //        fullNameValue.setText(profile.getFirstName() + " " +profile.getLastName());
 //        emailValue.setText(profile.getEmail());
@@ -112,6 +117,13 @@ public class UserHome implements IScreen {
         deleteBookButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
                 gotoDeleteBookForm();
+            }
+        });
+
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gotoSearchScreen();
             }
         });
     }
