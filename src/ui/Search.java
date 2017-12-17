@@ -52,6 +52,11 @@ public class Search implements IScreen {
             public void valueChanged(ListSelectionEvent e) {
                 BookInfoPanel.setVisible(true);
                 try {
+                    try{
+                        copies.get(ResultsList.getSelectedIndex());
+                    } catch(java.lang.IndexOutOfBoundsException E){
+                        copies.add(ResultsList.getSelectedIndex(), bookService.getNumberOfAvailableCopies(books.get(ResultsList.getSelectedIndex()).getBookId()) + " out of " + bookService.getNumberOfTotalCopies(books.get(ResultsList.getSelectedIndex()).getBookId()) + " copies available");
+                    }
                     BookData book = books.get(ResultsList.getSelectedIndex());
                     TitleLabel.setText(book.getTitle());
                     AuthorLabel.setText(book.getAuthor());
@@ -77,9 +82,7 @@ public class Search implements IScreen {
                 progressBar.setValue(50);
                 for(int i = 0; i < books.size(); i++) {
                     results.add(i, books.get(i).getBookId().toString() + " - " + books.get(i).getTitle() + " - " + books.get(i).getAuthor());
-                    progressBar.setValue(util.Math.map(i * 2 - 1, 0, books.size() * 2, 50, 90));
-                    copies.add(i, bookService.getNumberOfAvailableCopies(books.get(i).getBookId()) + " out of " + bookService.getNumberOfTotalCopies(books.get(i).getBookId()) + " copies available");
-                    progressBar.setValue(util.Math.map(i * 2, 0, books.size() * 2, 50, 90));
+                    progressBar.setValue(util.Math.map(i, 0, books.size(), 50, 90));
                 }
                 ResultsList.setListData(results.toArray());
                 progressBar.setValue(100);
