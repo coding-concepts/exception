@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * <code>LoanRepositoryImpl</code> class is  Implementation class.
@@ -27,8 +28,14 @@ import java.util.List;
  * @since Nov 27, 2017
  */
 public class LoanRepositoryImpl implements LoanRepository {
+    Logger logger = Logger.getLogger("LoanRepositoryImpl");
+
     @Override
     public Loan save(Loan loan) {
+
+        logger.info("Started Saving Loan ");
+
+
         String query  = "INSERT INTO LOAN (BOOK_COPY_ID , USER_ID, ISSUE_DATE, DUE_DATE) VALUES (?, ?, ?, ?)";
         try{
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
@@ -50,11 +57,13 @@ public class LoanRepositoryImpl implements LoanRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
+        logger.info("Finished Saving Loan ");
         return findCurrentLoanByBookCopyId(loan.getBookCopyId());
     }
 
     @Override
     public Loan returnBook(Long LoanId) {
+        logger.info("Started Returning Book");
         String query = "UPDATE LOAN SET RETURNED_DATE = NOW() WHERE ID = ?";
         try{
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
@@ -69,11 +78,14 @@ public class LoanRepositoryImpl implements LoanRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
+        logger.info("Finished Returning Book ");
         return findById(LoanId);
     }
 
     @Override
     public Loan findById(Long LoanId) {
+        logger.info("Started findById@ ");
+
         Loan loan = null;
         StringBuilder sb = new StringBuilder()
                 .append("SELECT ID, BOOK_COPY_ID, USER_ID, ISSUE_DATE, DUE_DATE, RETURNED_DATE")
@@ -100,11 +112,14 @@ public class LoanRepositoryImpl implements LoanRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
+        logger.info("Finished findById");
         return loan;
     }
 
     @Override
     public List<Loan> findAllLoansByCopyId(Long bookCopyId) {
+        logger.info("Started findAllLoansByCopyId: "+ bookCopyId);
+
         List<Loan> returnValue = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                 .append("SELECT ID, BOOK_COPY_ID, USER_ID, ISSUE_DATE, DUE_DATE, RETURNED_DATE")
@@ -132,11 +147,15 @@ public class LoanRepositoryImpl implements LoanRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
+        logger.info("Finished findAllLoansByCopyId:"+bookCopyId);
+
         return returnValue;
     }
 
     @Override
     public Loan findCurrentLoanByBookCopyId(Long bookCopyId) {
+        logger.info("Started findCurrentLoanByBookCopyId@:"+bookCopyId);
+
         Loan loan =null;
         StringBuilder sb = new StringBuilder()
                 .append("SELECT ID, BOOK_COPY_ID, USER_ID, ISSUE_DATE, DUE_DATE, RETURNED_DATE")
@@ -166,11 +185,15 @@ public class LoanRepositoryImpl implements LoanRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
+        logger.info("Finished findCurrentLoanByBookCopyId@:"+bookCopyId);
+
         return loan;
     }
 
     @Override
     public List<Loan> findOutstandingLoans() {
+        logger.info("Started findOutstandingLoans");
+
         List<Loan> returnValue = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                     .append("SELECT ID, BOOK_COPY_ID, USER_ID, ISSUE_DATE, DUE_DATE, RETURNED_DATE")
@@ -199,11 +222,15 @@ public class LoanRepositoryImpl implements LoanRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
+        logger.info("Finished findOutstandingLoans");
+
         return returnValue;
     }
 
     @Override
     public List<Loan> findAllLoans() {
+        logger.info("Started findAllLoans");
+
         List<Loan> returnValue = new ArrayList<>();
         StringBuilder sb = new StringBuilder()
                 .append("SELECT ID, BOOK_COPY_ID, USER_ID, ISSUE_DATE, DUE_DATE, RETURNED_DATE FROM LOAN  ");
@@ -228,32 +255,39 @@ public class LoanRepositoryImpl implements LoanRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
+        logger.info("Finished findAllLoans");
+
         return returnValue;
     }
 
     @Override
     public int countAllLoans() {
-        return findAllLoans().size();
+        logger.info("Started countAllLoans");
+        int i = findAllLoans().size();
+        logger.info("Finished countAllLoans");
+        return i;
     }
 
     @Override
     public int countOutstandingLoans() {
-        return findOutstandingLoans().size();
+        logger.info("Started countOutstandingLoans");
+        int i = findOutstandingLoans().size();
+        logger.info("Finished countOutstandingLoans");
+        return i;
     }
 
     @Override
     public int getNumberOfLoanedCopies(Long bookId) {
+        logger.info("Started getNumberOfLoanedCopies");
         int returnValue = 0;
         StringBuilder sb = new StringBuilder()
         .append("SELECT COUNT(1) ")
         .append(" FROM LOAN L, ")
-        .append("        BOOK B, ")
         .append("        BOOK_COPY BC ")
         .append(" WHERE L.BOOK_COPY_ID = BC.ID")
         .append("  AND L.DUE_DATE IS NOT NULL")
         .append("  AND L.RETURNED_DATE IS NULL")
-        .append("  AND BC.BOOK_ID = B.ID")
-        .append("  AND B.Id = ?");
+        .append("  AND BC.BOOK_ID = ? ");
 
         try{
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(sb.toString());
@@ -270,6 +304,7 @@ public class LoanRepositoryImpl implements LoanRepository {
         } finally {
             DatabaseUtility.releaseConnection();
         }
+        logger.info("Finished getNumberOfLoanedCopies");
         return returnValue;
     }
 }
