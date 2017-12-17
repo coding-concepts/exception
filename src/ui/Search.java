@@ -122,7 +122,8 @@ public class Search implements IScreen {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gotoUserHome();
+                //gotoUserHome();
+                FrameUtility.displayPreviousScreen();
             }
         });
     }
@@ -148,8 +149,7 @@ public class Search implements IScreen {
     private void gotoUpdateBokForm(){
         UpdateBokForm updateBook = new UpdateBokForm();
         //todo: add a method that will update the form with the current book.
-        updateBook.setPreviousScreen(this, "Search for Books");
-        FrameUtility.displayNextScreen(new Search(), updateBook, "Update a Book");
+        FrameUtility.displayNextScreen(this, updateBook, "Update a Book");
     }
     private void gotoUserHome(){
         FrameUtility.displayNextScreen(this, new UserHome(), "User Home");}

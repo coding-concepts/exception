@@ -34,7 +34,8 @@ public class DeleteBookForm implements IScreen{
     public DeleteBookForm() {
         cancelButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
-                gotoHomePage();
+                //gotoHomePage();
+                FrameUtility.displayPreviousScreen();
             }
         });
     }

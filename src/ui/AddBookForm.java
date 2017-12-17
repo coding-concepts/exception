@@ -36,7 +36,8 @@ public class AddBookForm  implements  IScreen {
     public AddBookForm() {
         cancelButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
-                gotoHomePage();
+                //gotoHomePage();
+                FrameUtility.displayPreviousScreen();
             }
         });
     }

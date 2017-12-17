@@ -23,10 +23,6 @@ import java.awt.event.ActionListener;
  * @since Nov 26, 2017
  */
 public class UpdateBokForm implements IScreen {
-    private String previousScreenTitle;
-
-    private IScreen previousScreen;
-
     private JPanel mainPanel;
 
     private JPanel titlePanel;
@@ -40,33 +36,9 @@ public class UpdateBokForm implements IScreen {
     public UpdateBokForm() {
         cancelButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
-                try {
-                    gotoPreviousScreen();
-                } catch(NullPointerException E){
-                    gotoHomePage();
-                }
+                    FrameUtility.displayPreviousScreen();
             }
         });
-    }
-
-    private void gotoHomePage() {
-        FrameUtility.displayNextScreen(this, new UserHome(), "User Home");
-    }
-    private void gotoPreviousScreen() {
-        FrameUtility.displayNextScreen(this, previousScreen, previousScreenTitle);
-    }
-
-    private IScreen getPreviousScreen() {
-        return previousScreen;
-    }
-
-    private String getPreviousScreenTitle() {
-        return previousScreenTitle;
-    }
-
-    public void setPreviousScreen(IScreen screen, String title){
-        previousScreen = screen;
-        previousScreenTitle = title;
     }
 
     @Override public JPanel getMainPanel() {
