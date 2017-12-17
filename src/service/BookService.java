@@ -47,7 +47,7 @@ public interface BookService {
      * @param  quantity quantity
      * @return Book Data with newly created Ids.
      */
-    BookData addBookCpoies(long bookId, int quantity) throws ValidationException;
+    BookData addBookCopies(long bookId, int quantity) throws ValidationException;
 
     /**
      * Gets the total copy count of the bookId.
