@@ -104,9 +104,7 @@ public class Search implements IScreen {
         UpdateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UpdateBokForm updateBook = new UpdateBokForm();
-                //todo: add a method that will update the form with the current book.
-                FrameUtility.displayNextScreen(Search.this, updateBook, "Update a Book");
+                gotoUpdateBokForm();
             }
         });
         issueButton.addActionListener(new ActionListener() {
@@ -124,7 +122,7 @@ public class Search implements IScreen {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FrameUtility.displayNextScreen(Search.this, new UserHome(), "User Home");
+                gotoUserHome();
             }
         });
     }
@@ -146,4 +144,13 @@ public class Search implements IScreen {
     public static void delay(int milliseconds){
         try {TimeUnit.MILLISECONDS.sleep(milliseconds);}catch(java.lang.InterruptedException E){return;}
     }
+
+    private void gotoUpdateBokForm(){
+        UpdateBokForm updateBook = new UpdateBokForm();
+        //todo: add a method that will update the form with the current book.
+        updateBook.setPreviousScreen(this, "Search for Books");
+        FrameUtility.displayNextScreen(new Search(), updateBook, "Update a Book");
+    }
+    private void gotoUserHome(){
+        FrameUtility.displayNextScreen(this, new UserHome(), "User Home");}
 }

@@ -85,7 +85,9 @@ public class UserHome implements IScreen {
     }
 
     private void gotoUpdateBookForm() {
-        FrameUtility.displayNextScreen(this, new UpdateBokForm(), "Update a Book");
+        UpdateBokForm updateBokForm = new UpdateBokForm();
+        updateBokForm.setPreviousScreen(UserHome.this, "User Home");
+        FrameUtility.displayNextScreen(this, updateBokForm, "Update a Book");
     }
     private void gotoDeleteBookForm() {
         FrameUtility.displayNextScreen(this, new DeleteBookForm(), "Update a Book");
