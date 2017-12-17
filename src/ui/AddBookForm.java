@@ -22,6 +22,8 @@ import java.awt.event.ActionListener;
  * <strong>History</strong>    Name              Date            Description
  * <strong>History</strong>    --------------------------------------------------------------------
  * <strong>History</strong>   Pratyush Giri    11/26/17
+ * <strong>History</strong>   Rinisha Giri    12/17/17          it works now
+
  * </pre>
  *
  * @author Pratyush Giri
@@ -40,23 +42,31 @@ public class AddBookForm  implements  IScreen {
     private JTextField titletxt;
     private JTextField authortxt;
     private JButton saveButton;
+    private JLabel titlelbl;
+    private JLabel authorlbl;
+    private JLabel Copieslbl;
+    private JTextField Copiestxt;
+    private JLabel CopyIdslbl;
 
     public AddBookForm() {
 
         saveButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
 
+
                 BookData b = new BookData();
                 b.setTitle(titletxt.getText());
                 b.setAuthor(authortxt.getText());
+                int copies = Integer.parseInt(Copiestxt.getText());
 
                 BookService bookService = ServiceFactory.getBookService();
                 try {
-                    b = bookService.addBook(b);
+                    b = bookService.addBook(b,copies);
                     StringBuilder sb = new StringBuilder("The book copy Ids are: ");
                     for (long l: b.getBookCopyIds()){
                         sb.append(l+ " ");
                     }
+
                     JOptionPane.showMessageDialog(mainPanel,sb.toString());
                 } catch (ValidationException e1) {
                     e1.printStackTrace();
@@ -69,7 +79,7 @@ public class AddBookForm  implements  IScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Todo - GoBack
-                cancelButton.setText("Cancelled :P");
+                gotoHomePage();
             }
         });
     }

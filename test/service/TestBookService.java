@@ -58,7 +58,7 @@ public class TestBookService {
         assertNotNull(bd.getBookCopyIds());
         assertEquals(1, bd.getBookCopyIds().size());
 
-        BookData newBd = bookService.addBookCpoies(bd.getBookId(), 3);
+        BookData newBd = bookService.addBookCopies(bd.getBookId(), 3);
         assertNotNull(newBd);
         assertNotNull(newBd.getBookCopyIds());
         assertEquals(3, newBd.getBookCopyIds().size());
