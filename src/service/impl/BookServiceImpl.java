@@ -119,7 +119,31 @@ public class BookServiceImpl implements BookService {
     public List<BookData> SearchBook(String srchCriteria) {
         List<BookData> books  =  new ArrayList<>();
         //todo list
-
+        BookData hp1 = new BookData();
+        BookData hp2 = new BookData();
+        BookData hp3 = new BookData();
+        BookData unrec = new BookData();
+        hp1.setTitle("Harry Potter and the Sorcerers Stone");
+        hp2.setTitle("Harry Potter and the Chamber of Secrets");
+        hp3.setTitle("Harry Potter and the Prisoner of Azkaban");
+        unrec.setTitle("The Giving Tree");
+        hp1.setAuthor("J.K. Rowling");
+        hp2.setAuthor("J.K. Rowling");
+        hp3.setAuthor("J.K. Rowling");
+        unrec.setAuthor("Shel Silverstein");
+        hp1.setBookId(1000L);
+        hp2.setBookId(2000L);
+        hp3.setBookId(3000L);
+        unrec.setBookId(4000L);
+        books.add(0, hp1);
+        books.add(1, hp2);
+        books.add(2, hp3);
+        books.add(3, unrec);
+        /*
+        0000 - Harry Potter and the Sorcerers Stone - J.K. Rowling
+        0001 - Harry Potter and the Chamber of Secrets - J.K. Rowling
+        0002 - Harry Potter and the Prisoner of Azkaban - J.K. Rowling
+         */
         return books;
     }
 

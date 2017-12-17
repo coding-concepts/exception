@@ -4,7 +4,10 @@
     <constraints>
       <xy x="20" y="20" width="734" height="618"/>
     </constraints>
-    <properties/>
+    <properties>
+      <opaque value="true"/>
+      <visible value="true"/>
+    </properties>
     <border type="none"/>
     <children>
       <grid id="a1844" binding="SearchPanel" layout-manager="GridBagLayout">
@@ -44,29 +47,43 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
-        <properties/>
+        <properties>
+          <visible value="false"/>
+        </properties>
         <border type="none"/>
         <children>
-          <scrollpane id="3cc0">
+          <scrollpane id="3cc0" binding="sp">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
-            <properties/>
+            <properties>
+              <visible value="true"/>
+            </properties>
             <border type="none"/>
             <children>
               <component id="5fcbd" class="javax.swing.JList" binding="ResultsList">
                 <constraints/>
                 <properties>
-                  <model>
-                    <item value="0000 - Harry Potter and the Sorcerers Stone - J.K. Rowling"/>
-                    <item value="0001 - Harry Potter and the Chamber of Secrets - J.K. Rowling"/>
-                    <item value="0002 - Harry Potter and the Prisoner of Azkaban - J.K. Rowling"/>
-                  </model>
+                  <model/>
+                  <visible value="true"/>
                 </properties>
               </component>
             </children>
           </scrollpane>
+          <component id="a580" class="javax.swing.JProgressBar" binding="progressBar">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <opaque value="true"/>
+              <string value=""/>
+              <value value="5"/>
+              <verifyInputWhenFocusTarget value="true"/>
+              <visible value="false"/>
+            </properties>
+          </component>
         </children>
       </grid>
       <grid id="3b1c6" binding="TitlePanel" layout-manager="GridBagLayout">
@@ -94,7 +111,9 @@
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
-        <properties/>
+        <properties>
+          <visible value="false"/>
+        </properties>
         <border type="none"/>
         <children>
           <component id="cd3d8" class="javax.swing.JLabel" binding="CoverArt">
@@ -160,7 +179,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <text value="Issue Book"/>
+                  <text value="Issue"/>
                 </properties>
               </component>
               <component id="35403" class="javax.swing.JButton" binding="LoansButton">
@@ -169,7 +188,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <text value="View Loans"/>
+                  <text value="Loans"/>
                 </properties>
               </component>
               <component id="66743" class="javax.swing.JButton" binding="UpdateButton">

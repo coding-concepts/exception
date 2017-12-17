@@ -46,6 +46,7 @@ public class LoginScreen  implements IScreen {
     private JButton btnRegister;
 
     private JButton btnLogin;
+    private JButton button1;
 
     public static UserProfile loggedOnUser = null;
 
