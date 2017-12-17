@@ -39,29 +39,41 @@ public class Search implements IScreen {
     private JButton issueButton;
     private JProgressBar progressBar;
     private JScrollPane sp;
+    private JButton cancelButton;
+    private JButton backButton;
 
     BookService bookService = ServiceFactory.getBookService();
     LoanService loanService = ServiceFactory.getLoanService();
 
+    HashMap<Long, String> availability = new HashMap<>();
+
     List<BookData> books;
-    List<String> copies;
 
     public Search() {
         ResultsList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 BookInfoPanel.setVisible(true);
+
+                int selected = ResultsList.getSelectedIndex();
+                BookData bookData = books.get(selected);
+                Long bookId = bookData.getBookId();
+                String message = "";
                 try {
-                    try{
-                        copies.get(ResultsList.getSelectedIndex());
-                    } catch(java.lang.IndexOutOfBoundsException E){
-                        copies.add(ResultsList.getSelectedIndex(), bookService.getNumberOfAvailableCopies(books.get(ResultsList.getSelectedIndex()).getBookId()) + " out of " + bookService.getNumberOfTotalCopies(books.get(ResultsList.getSelectedIndex()).getBookId()) + " copies available");
+
+                    if (!availability.containsKey(bookId)) {
+                       message = bookService.getNumberOfAvailableCopies(bookId) + " out of " + bookService.getNumberOfTotalCopies(bookId) + " copies available";
+                        availability.put(bookId, message);
+
+                    } else {
+                       message = availability.get(bookId);
                     }
+
                     BookData book = books.get(ResultsList.getSelectedIndex());
                     TitleLabel.setText(book.getTitle());
                     AuthorLabel.setText(book.getAuthor());
                     IdLabel.setText(book.getBookId().toString());
-                    CopiesLabel.setText(copies.get(ResultsList.getSelectedIndex()));
+                    CopiesLabel.setText(message);
                     CoverArt.setIcon(getCoverArt(book.getBookId()));
                 } catch(ArrayIndexOutOfBoundsException E) {return;}
 
@@ -74,9 +86,7 @@ public class Search implements IScreen {
                 progressBar.setVisible(true);
                 BookInfoPanel.setVisible(false);
                 ResultsPanel.setVisible(false);
-                //ResultsList.setListData();
                 books  =  bookService.SearchBook(searchBar.getText());
-                copies = new ArrayList<>();
                 progressBar.setValue(35);
                 List<String>  results =  new ArrayList<>();
                 progressBar.setValue(50);
@@ -109,6 +119,12 @@ public class Search implements IScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //todo: add a method that will take you to the Loans screen.
+            }
+        });
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FrameUtility.displayNextScreen(Search.this, new UserHome(), "User Home");
             }
         });
     }
