@@ -64,7 +64,7 @@ public class BookBuilder {
     public Book toBook() {
         Book bk = new Book();
         if (bookData != null) {
-            bk.setId(bookData.getBookId());
+//            bk.setId(bookData.getBookId());
             bk.setAuthor(bookData.getAuthor());
             bk.setTitle(bookData.getTitle());
         }
