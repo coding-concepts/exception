@@ -56,6 +56,10 @@ public class Search implements IScreen {
                 BookInfoPanel.setVisible(true);
 
                 int selected = ResultsList.getSelectedIndex();
+                if(selected == -1){
+                    //this is because the selection was cleared, making the index -1.
+                    return;
+                }
                 BookData bookData = books.get(selected);
                 Long bookId = bookData.getBookId();
                 String message = "";
@@ -95,6 +99,7 @@ public class Search implements IScreen {
                     progressBar.setValue(util.Math.map(i, 0, books.size(), 50, 90));
                 }
                 ResultsList.setListData(results.toArray());
+                BookInfoPanel.setVisible(false);
                 progressBar.setValue(100);
                 progressBar.setVisible(false);
                 ResultsPanel.setVisible(true);
@@ -122,8 +127,8 @@ public class Search implements IScreen {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //gotoUserHome();
-                FrameUtility.displayPreviousScreen();
+                gotoUserHome();
+                //FrameUtility.displayPreviousScreen();
             }
         });
     }
