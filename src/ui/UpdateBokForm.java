@@ -31,26 +31,20 @@ public class UpdateBokForm implements IScreen {
 
     private JButton cancelButton;
 
+
+
     public UpdateBokForm() {
         cancelButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
-
+                    FrameUtility.displayPreviousScreen();
             }
         });
-        cancelButton.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
-                gotoHomePage();
-            }
-        });
-    }
-
-    private void gotoHomePage() {
-        FrameUtility.displayNextScreen(this, new UserHome(), "User Home");
     }
 
     @Override public JPanel getMainPanel() {
         return mainPanel;
     }
+
 }
 
 

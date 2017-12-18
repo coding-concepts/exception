@@ -52,8 +52,6 @@ public class AddBookForm  implements  IScreen {
 
         saveButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
-
-
                 BookData b = new BookData();
                 b.setTitle(titletxt.getText());
                 b.setAuthor(authortxt.getText());
@@ -78,8 +76,7 @@ public class AddBookForm  implements  IScreen {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Todo - GoBack
-                gotoHomePage();
+                FrameUtility.displayPreviousScreen();
             }
         });
     }

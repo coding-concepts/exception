@@ -39,24 +39,45 @@ public class Search implements IScreen {
     private JButton issueButton;
     private JProgressBar progressBar;
     private JScrollPane sp;
+    private JButton cancelButton;
+    private JButton backButton;
 
     BookService bookService = ServiceFactory.getBookService();
     LoanService loanService = ServiceFactory.getLoanService();
 
+    HashMap<Long, String> availability = new HashMap<>();
+
     List<BookData> books;
-    List<String> copies;
 
     public Search() {
         ResultsList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 BookInfoPanel.setVisible(true);
+
+                int selected = ResultsList.getSelectedIndex();
+                if(selected == -1){
+                    //this is because the selection was cleared, making the index -1.
+                    return;
+                }
+                BookData bookData = books.get(selected);
+                Long bookId = bookData.getBookId();
+                String message = "";
                 try {
+
+                    if (!availability.containsKey(bookId)) {
+                       message = bookService.getNumberOfAvailableCopies(bookId) + " out of " + bookService.getNumberOfTotalCopies(bookId) + " copies available";
+                        availability.put(bookId, message);
+
+                    } else {
+                       message = availability.get(bookId);
+                    }
+
                     BookData book = books.get(ResultsList.getSelectedIndex());
                     TitleLabel.setText(book.getTitle());
                     AuthorLabel.setText(book.getAuthor());
                     IdLabel.setText(book.getBookId().toString());
-                    CopiesLabel.setText(copies.get(ResultsList.getSelectedIndex()));
+                    CopiesLabel.setText(message);
                     CoverArt.setIcon(getCoverArt(book.getBookId()));
                 } catch(ArrayIndexOutOfBoundsException E) {return;}
 
@@ -69,19 +90,16 @@ public class Search implements IScreen {
                 progressBar.setVisible(true);
                 BookInfoPanel.setVisible(false);
                 ResultsPanel.setVisible(false);
-                //ResultsList.setListData();
                 books  =  bookService.SearchBook(searchBar.getText());
-                copies = new ArrayList<>();
                 progressBar.setValue(35);
                 List<String>  results =  new ArrayList<>();
                 progressBar.setValue(50);
                 for(int i = 0; i < books.size(); i++) {
                     results.add(i, books.get(i).getBookId().toString() + " - " + books.get(i).getTitle() + " - " + books.get(i).getAuthor());
-                    progressBar.setValue(util.Math.map(i * 2 - 1, 0, books.size() * 2, 50, 90));
-                    copies.add(i, bookService.getNumberOfAvailableCopies(books.get(i).getBookId()) + " out of " + bookService.getNumberOfTotalCopies(books.get(i).getBookId()) + " copies available");
-                    progressBar.setValue(util.Math.map(i * 2, 0, books.size() * 2, 50, 90));
+                    progressBar.setValue(util.Math.map(i, 0, books.size(), 50, 90));
                 }
                 ResultsList.setListData(results.toArray());
+                BookInfoPanel.setVisible(false);
                 progressBar.setValue(100);
                 progressBar.setVisible(false);
                 ResultsPanel.setVisible(true);
@@ -91,9 +109,7 @@ public class Search implements IScreen {
         UpdateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UpdateBokForm updateBook = new UpdateBokForm();
-                //todo: add a method that will update the form with the current book.
-                FrameUtility.displayNextScreen(Search.this, updateBook, "Update a Book");
+                gotoUpdateBokForm();
             }
         });
         issueButton.addActionListener(new ActionListener() {
@@ -106,6 +122,13 @@ public class Search implements IScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //todo: add a method that will take you to the Loans screen.
+            }
+        });
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gotoUserHome();
+                //FrameUtility.displayPreviousScreen();
             }
         });
     }
@@ -127,4 +150,12 @@ public class Search implements IScreen {
     public static void delay(int milliseconds){
         try {TimeUnit.MILLISECONDS.sleep(milliseconds);}catch(java.lang.InterruptedException E){return;}
     }
+
+    private void gotoUpdateBokForm(){
+        UpdateBokForm updateBook = new UpdateBokForm();
+        //todo: add a method that will update the form with the current book.
+        FrameUtility.displayNextScreen(this, updateBook, "Update a Book");
+    }
+    private void gotoUserHome(){
+        FrameUtility.displayNextScreen(this, new UserHome(), "User Home");}
 }

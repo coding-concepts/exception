@@ -3,6 +3,7 @@
  */
 package util;
 
+import javafx.stage.Screen;
 import ui.IScreen;
 
 import javax.swing.*;
@@ -26,15 +27,29 @@ public class FrameUtility {
 
     public static JFrame FRAME = new JFrame();
 
+    private IScreen previousScreen;
+    private static String previousScreenT;
+
+    private IScreen currentScreen;
+    private static String currentScreenT;
+
+    private static FrameUtility fu = new FrameUtility();
+
     public static void displayNextScreen(IScreen orig, IScreen next, String title) {
-        //FRAME.setVisible(false);
-        orig.getMainPanel().setVisible(false);
-        orig = null;
+        //orig.getMainPanel().setVisible(false);
         FRAME.setContentPane(next.getMainPanel());
         FRAME.setSize(SCREEN_SIZE);
         FRAME.setTitle(title);
         FRAME.revalidate();
         FRAME.setVisible(true);
+        fu.previousScreen = fu.currentScreen;
+        previousScreenT = currentScreenT;
+        fu.currentScreen = next;
+        currentScreenT = title;
+    }
+
+    public static void displayPreviousScreen() {
+        displayNextScreen(fu.currentScreen, fu.previousScreen, previousScreenT);
     }
 }
 
