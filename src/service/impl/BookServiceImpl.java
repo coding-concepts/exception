@@ -55,12 +55,12 @@ public class BookServiceImpl implements BookService {
         //save book
         Book book = bookRespository.save(new BookBuilder().bookData(bookData).toBook());
         //save book copy for quantity times
-        return addBookCpoies(book.getId(), quantity);
+        return addBookCopies(book.getId(), quantity);
 
     }
 
     @Override
-    public BookData addBookCpoies(long bookId, int quantity) throws ValidationException {
+    public BookData addBookCopies(long bookId, int quantity) throws ValidationException {
         return addBookCpoies(null, bookId, quantity);
     }
 
