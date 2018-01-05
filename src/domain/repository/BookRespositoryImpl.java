@@ -10,6 +10,8 @@ import service.DatabaseUtility;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <code>BookRespositoryImpl</code> class is  impl class.
@@ -66,6 +68,52 @@ public class BookRespositoryImpl implements BookRespository {
             throw new SystemException("Exception Happened while trying to get a Book by Title ");
         }
         return null;
+    }
+
+
+    @Override
+    public List<Book> findByPartialAuthor(String author) {
+        String query = "SELECT ID, TITLE, AUTHOR FROM BOOK WHERE UPPER(AUTHOR) LIKE ? ";
+        List<Book> books = new ArrayList<>();
+        try {
+            PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
+            ps.setString(1, "%"+author.toUpperCase()+"%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Book bk = new Book();
+                bk.setId(rs.getLong("ID"));
+                bk.setTitle(rs.getString("TITLE"));
+                bk.setAuthor(rs.getString("AUTHOR"));
+                books.add(bk);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SystemException("Exception Happened while trying to get a Book by PARTIAL Author ");
+        }
+        return books;
+    }
+
+
+    @Override
+    public List<Book> findByPartialTitle(String title) {
+        String query = "SELECT ID, TITLE, AUTHOR FROM BOOK WHERE UPPER(TITLE) LIKE ? ";
+        List<Book> books = new ArrayList<>();
+        try {
+            PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
+            ps.setString(1, "%"+title.toUpperCase()+"%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Book bk = new Book();
+                bk.setId(rs.getLong("ID"));
+                bk.setTitle(rs.getString("TITLE"));
+                bk.setAuthor(rs.getString("AUTHOR"));
+                books.add(bk);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SystemException("Exception Happened while trying to get a Book by PARTIAL Title ");
+        }
+        return books;
     }
 
     @Override

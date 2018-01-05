@@ -90,7 +90,7 @@ public class Search implements IScreen {
                 progressBar.setVisible(true);
                 BookInfoPanel.setVisible(false);
                 ResultsPanel.setVisible(false);
-                books  =  bookService.SearchBook(searchBar.getText());
+                books  =  bookService.searchBook(searchBar.getText());
                 progressBar.setValue(35);
                 List<String>  results =  new ArrayList<>();
                 progressBar.setValue(50);

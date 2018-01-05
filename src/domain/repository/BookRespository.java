@@ -5,6 +5,8 @@ package domain.repository;
 
 import domain.Book;
 
+import java.util.List;
+
 /**
  * <code>BookRespository<code> class is  repository
  * <p>
@@ -32,6 +34,20 @@ public interface BookRespository {
      * @return book
      */
     Book findByTitle(String title);
+
+    /**
+     * finds a book by title Partial case in sensitive.
+     * @param title title.
+     * @return book
+     */
+    List<Book> findByPartialTitle(String title);
+
+    /**
+     * finds a book by title Partial case in sensitive.
+     * @param author author.
+     * @return book
+     */
+    List<Book> findByPartialAuthor(String author);
 
     /**
      * FInd a book by Id.

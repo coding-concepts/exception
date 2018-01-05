@@ -66,11 +66,11 @@ public interface BookService {
     int getNumberOfAvailableCopies(Long bookId);
 
     /**
-     * Selects book data based on serach criteria
+     * Selects book data based on serach criteria (Author or title partial)
      * @param srchCriteria search Criteria
      * @return book data list
      */
-    List<BookData> SearchBook(String srchCriteria);
+    List<BookData> searchBook(String srchCriteria);
 
 
 }
