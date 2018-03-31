@@ -60,6 +60,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public BookData deleteBook(BookData bookData, int[] bookCopies) throws ValidationException {
+        return null;
+    }
+
+    @Override
     public BookData addBookCopies(long bookId, int quantity) throws ValidationException {
         return addBookCpoies(null, bookId, quantity);
     }

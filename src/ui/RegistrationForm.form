@@ -168,7 +168,7 @@
                 <item value=""/>
                 <item value="Male"/>
                 <item value="Female"/>
-                <item value="Others"/>
+                <item value="Other"/>
                 <item value="Rather Not Say"/>
               </model>
               <preferredSize width="100" height="26"/>

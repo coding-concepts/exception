@@ -48,6 +48,9 @@ PRIMARY KEY (EMAIL)
 
     private String salt;
 
+    private String hashingAlgo;
+
+
     public Date getDob() {
         return dob;
     }
@@ -118,6 +121,14 @@ PRIMARY KEY (EMAIL)
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getHashingAlgo() {
+        return hashingAlgo;
+    }
+
+    public void setHashingAlgo(String hashingAlgo) {
+        this.hashingAlgo = hashingAlgo;
     }
 }
 

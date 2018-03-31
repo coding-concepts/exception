@@ -6,6 +6,8 @@ package builder;
 import data.RegistrationData;
 import data.UserProfile;
 import domain.User;
+import service.HashingService;
+import service.ServiceFactory;
 
 /**
  * <code>UserBuilder</code> class is  Builder Class for User.
@@ -23,6 +25,10 @@ import domain.User;
 public class UserProfileBuilder {
 
     private RegistrationData registrationData;
+
+    private static final String HASHING_ALGO = "SHA-256";
+
+    private HashingService hashingService = ServiceFactory.getHashingService();
 
     private User user;
 
@@ -49,8 +55,15 @@ public class UserProfileBuilder {
         user.setDob(registrationData.getDob());
         user.setGender(registrationData.getGender());
         user.setPhone(registrationData.getPhone());
-        user.setPassword(registrationData.getPassword());
 
+        try {
+            String[] pwdAndSalt  = hashingService.getHashAndSalt(HASHING_ALGO, registrationData.getPassword().getBytes());
+            user.setPassword(pwdAndSalt[1]);
+            user.setSalt(pwdAndSalt[0]);
+            user.setHashingAlgo(HASHING_ALGO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return user;
     }
 
