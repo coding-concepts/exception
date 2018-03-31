@@ -16,6 +16,8 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static ui.Search.SearchContext.UPDATE;
+
 /**
  * Created by sniper825 on 11/26/17.
  */
@@ -40,7 +42,20 @@ public class Search implements IScreen {
     private JProgressBar progressBar;
     private JScrollPane sp;
     private JButton cancelButton;
+    private JPanel contextPanel;
+    private JPanel conformPanel;
+    private JButton OKButton;
     private JButton backButton;
+
+    public SearchContext getContext() {
+        return context;
+    }
+
+    public void setContext(SearchContext context) {
+        this.context = context;
+    }
+
+    private SearchContext context;
 
     BookService bookService = ServiceFactory.getBookService();
     LoanService loanService = ServiceFactory.getLoanService();
@@ -109,7 +124,7 @@ public class Search implements IScreen {
         UpdateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gotoUpdateBokForm();
+                gotoUpdateBookForm();
             }
         });
         issueButton.addActionListener(new ActionListener() {
@@ -131,6 +146,14 @@ public class Search implements IScreen {
                 //FrameUtility.displayPreviousScreen();
             }
         });
+        OKButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(context == UPDATE){
+                    gotoUpdateBookForm();
+                }
+            }
+        });
     }
 
     public JPanel getMainPanel() {
@@ -147,11 +170,16 @@ public class Search implements IScreen {
         return icon;
     }
 
+    public enum SearchContext{
+        DELETE,
+        UPDATE
+    }
+
     public static void delay(int milliseconds){
         try {TimeUnit.MILLISECONDS.sleep(milliseconds);}catch(java.lang.InterruptedException E){return;}
     }
 
-    private void gotoUpdateBokForm(){
+    private void gotoUpdateBookForm(){
         UpdateBokForm updateBook = new UpdateBokForm();
         //todo: add a method that will update the form with the current book.
         FrameUtility.displayNextScreen(this, updateBook, "Update a Book");

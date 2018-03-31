@@ -127,6 +127,7 @@ public class BookServiceImpl implements BookService {
         List<Book> authorBased = bookRespository.findByPartialAuthor(srchCriteria);
         //search by partial title
         List<Book> titleBased  = bookRespository.findByPartialTitle(srchCriteria);
+        //List<Book> IDBased = bookRespository.findById(srchCritzeria);
 
         List<Book> titleCopy = new ArrayList<>(titleBased);
         titleCopy.removeAll(authorBased);
