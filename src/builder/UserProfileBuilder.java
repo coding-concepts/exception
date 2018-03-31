@@ -10,6 +10,8 @@ import service.HashingService;
 import service.ServiceFactory;
 import service.EncryptionService;
 import service.ServiceFactory;
+import service.EncryptionService;
+import service.ServiceFactory;
 
 /**
  * <code>UserBuilder</code> class is  Builder Class for User.
