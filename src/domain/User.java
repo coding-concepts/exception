@@ -48,6 +48,11 @@ PRIMARY KEY (EMAIL)
 
     private String salt;
 
+    private String firstNameKey;
+    private String lastNameKey;
+
+
+
     public Date getDob() {
         return dob;
     }
@@ -118,6 +123,22 @@ PRIMARY KEY (EMAIL)
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFirstNameKey() {
+        return firstNameKey;
+    }
+
+    public void setFirstNameKey(String firstNameKey) {
+        this.firstNameKey = firstNameKey;
+    }
+
+    public String getLastNameKey() {
+        return lastNameKey;
+    }
+
+    public void setLastNameKey(String lastNameKey) {
+        this.lastNameKey = lastNameKey;
     }
 }
 

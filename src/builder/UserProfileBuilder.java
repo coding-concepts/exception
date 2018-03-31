@@ -6,6 +6,8 @@ package builder;
 import data.RegistrationData;
 import data.UserProfile;
 import domain.User;
+import service.EncryptionService;
+import service.ServiceFactory;
 
 /**
  * <code>UserBuilder</code> class is  Builder Class for User.
@@ -23,6 +25,8 @@ import domain.User;
 public class UserProfileBuilder {
 
     private RegistrationData registrationData;
+
+    private EncryptionService encryptionService = ServiceFactory.getEncryptionService();
 
     private User user;
 
@@ -43,8 +47,15 @@ public class UserProfileBuilder {
         }
 
         User user = new User();
-        user.setFirstName(registrationData.getFirstName());
-        user.setLastName(registrationData.getLastName());
+
+        String[] firstNames = encryptionService.encrypt(registrationData.getFirstName());
+        user.setFirstName(firstNames[0]);
+        user.setFirstNameKey(firstNames[1]);
+
+        String[] lastNames = encryptionService.encrypt(registrationData.getLastName());
+        user.setLastName(lastNames[0]);
+        user.setLastNameKey(lastNames[1]);
+
         user.setEmail(registrationData.getEmail());
         user.setDob(registrationData.getDob());
         user.setGender(registrationData.getGender());
@@ -78,8 +89,12 @@ public class UserProfileBuilder {
         }
 
         UserProfile profile = new UserProfile();
-        profile.setFirstName(user.getFirstName());
-        profile.setLastName(user.getLastName());
+
+
+        profile.setFirstName(encryptionService.decrypt(user.getFirstName(), user.getFirstNameKey()));
+        profile.setLastName(encryptionService.decrypt(user.getLastName(), user.getLastNameKey()));
+
+
         profile.setEmail(user.getEmail());
         profile.setDob(user.getDob());
         char gender = user.getGender();
