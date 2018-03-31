@@ -12,6 +12,7 @@ import domain.repository.LoanRepositoryImpl;
 import domain.repository.UserRepository;
 import domain.repository.UserRepositoryImpl;
 import service.impl.BookServiceImpl;
+import service.impl.EncryptionServiceImpl;
 import service.impl.LoanServiceImpl;
 import service.impl.UserServiceImpl;
 
@@ -60,6 +61,11 @@ public class ServiceFactory {
 
     public static LoanRepository getLoanRepository() {
         return new LoanRepositoryImpl();
+    }
+
+
+    public static EncryptionService getEncryptionService() {
+        return new EncryptionServiceImpl();
     }
 }
 

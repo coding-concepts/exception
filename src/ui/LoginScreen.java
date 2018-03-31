@@ -81,6 +81,7 @@ public class LoginScreen  implements IScreen {
         UserService userService = ServiceFactory.getUserService();
         try {
             UserProfile profile = userService.validateUser(txtUser.getText(), new String(txtPassword.getPassword()));
+
             loggedOnUser = profile;
             showUserHome(profile);
         } catch (ValidationException e) {
