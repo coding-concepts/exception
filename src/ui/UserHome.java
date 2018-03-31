@@ -54,7 +54,7 @@ public class UserHome implements IScreen {
 
     private JButton searchButton;
 
-    private JButton button2;
+    private JButton loanButton;
 
     private JButton button3;
 

@@ -40,6 +40,8 @@ public interface BookService {
      */
     BookData addBook(BookData bookData, int quantity) throws ValidationException;
 
+    BookData deleteBook(BookData bookData, int [] bookCopies) throws ValidationException;
+
 
     /**
      * Adds book copies. Given a book id that exists, you can give how many new book copies you want to save.
@@ -71,6 +73,8 @@ public interface BookService {
      * @return book data list
      */
     List<BookData> searchBook(String srchCriteria);
+
+
 
 
 }

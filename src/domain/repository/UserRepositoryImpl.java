@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements  UserRepository {
     @Override
     public User findByEmailId(String emailId) {
 
-        String query = "SELECT  ID, EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT FROM USER WHERE EMAIL = ? ";
+        String query = "SELECT  ID, EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT, HASHING_ALGO FROM USER WHERE EMAIL = ? ";
 
         try {
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
@@ -50,6 +50,7 @@ public class UserRepositoryImpl implements  UserRepository {
                 u.setDob(rs.getDate("DOB"));
                 u.setPassword(rs.getString("PASSWORD"));
                 u.setSalt(rs.getString("SALT"));
+                u.setHashingAlgo(rs.getString("HASHING_ALGO"));
                 return u;
             }
         } catch (SQLException e) {
@@ -157,8 +158,8 @@ public class UserRepositoryImpl implements  UserRepository {
 
     private User insert(User u) {
         String query = "INSERT INTO USER"
-                + "(EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT ) "
-                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT, HASHING_ALGO ) "
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?  )";
         try {
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);
             ps.setString(1, u.getEmail());
@@ -171,6 +172,7 @@ public class UserRepositoryImpl implements  UserRepository {
             }
             ps.setString(7, u.getPassword());
             ps.setString(8, u.getSalt()); //we will do this later
+            ps.setString(9, u.getHashingAlgo());
 
             ps.executeUpdate();
             DatabaseUtility.commitTransaction();

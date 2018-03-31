@@ -42,6 +42,10 @@ public class ServiceFactory {
         return new BookServiceImpl();
     }
 
+    public static HashingService getHashingService(){
+        return new HashingServiceImpl();
+    }
+
     public static UserRepository getUserRepository() {
         return new UserRepositoryImpl();
     }

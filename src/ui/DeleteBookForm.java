@@ -3,6 +3,12 @@
  */
 package ui;
 
+import data.BookData;
+import domain.Book;
+import domain.BookCopy;
+import exception.ValidationException;
+import service.BookService;
+import service.ServiceFactory;
 import util.FrameUtility;
 
 import javax.swing.*;
@@ -30,19 +36,49 @@ public class DeleteBookForm implements IScreen{
     private JPanel btnPanel;
 
     private JButton cancelButton;
+    private JTextField Titletxt;
+    private JTextField authorTxt;
+    private JTextField BookCopiesTxt;
+    private JButton SaveBtn;
 
     public DeleteBookForm() {
         cancelButton.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 //gotoHomePage();
                 FrameUtility.displayPreviousScreen();
             }
         });
     }
+//        SaveBtn.addActionListener(new ActionListener() {
+////            @Override
+////            public void actionPerformed(ActionEvent e) {
+//////                BookData b = new BookData();
+//////                b.setTitle(Titletxt.getText());
+//////                b.setAuthor(authorTxt.getText());
+//////                int [] bookCopies = getIntArray(BookCopiesTxt);
+//////
+//////                BookService bookService = ServiceFactory.getBookService();
+//////                try {
+//////                    b = bookService.deleteBook(b,bookCopies);
+//////
+//////
+//////                } catch (ValidationException e1) {
+//////                    e1.printStackTrace();
+//////                }
+//////
+//////            }
+////        });
+//    }
+
 
     private void gotoHomePage() {
         FrameUtility.displayNextScreen(this, new UserHome(), "User Home");
     }
+//
+//    private int[] getIntArray(String bookCopies){
+//
+//    }
 
     @Override public JPanel getMainPanel() {
         return mainPanel;
