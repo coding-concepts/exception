@@ -16,7 +16,8 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static ui.Search.SearchContext.UPDATE;
+import static ui.SearchContext.UPDATE;
+import static ui.SearchContext.DELETE;
 
 /**
  * Created by sniper825 on 11/26/17.
@@ -149,8 +150,10 @@ public class Search implements IScreen {
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(context == UPDATE){
+                if(context == UPDATE) {
                     gotoUpdateBookForm();
+                } else if(context == DELETE){
+                    //todo: implement delete book
                 }
             }
         });
@@ -170,10 +173,6 @@ public class Search implements IScreen {
         return icon;
     }
 
-    public enum SearchContext{
-        DELETE,
-        UPDATE
-    }
 
     public static void delay(int milliseconds){
         try {TimeUnit.MILLISECONDS.sleep(milliseconds);}catch(java.lang.InterruptedException E){return;}
