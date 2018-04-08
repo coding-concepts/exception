@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements  UserRepository {
     @Override
     public User findByEmailId(String emailId) {
 
-        String query = "SELECT  ID, EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT, FIRST_NAME_KEY, LAST_NAME_KEY FROM USER WHERE EMAIL = ? ";
+        String query = "SELECT  ID, EMAIL, FIRST_NAME, LAST_NAME, GENDER, PHONE, DOB, PASSWORD, SALT, FIRST_NAME_KEY, LAST_NAME_KEY, HASHING_ALGO FROM USER WHERE EMAIL = ? ";
 
         try {
             PreparedStatement ps = DatabaseUtility.getConnection().prepareStatement(query);

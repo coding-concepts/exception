@@ -186,7 +186,13 @@ public class RegistrationForm implements IScreen {
         }
         StringBuffer sb = new StringBuffer();
         for (ValidationError  error : errors){
-            JLabel comp = errorMap.get(error.getField());
+
+
+            String s = error.getField();
+
+            JLabel comp = errorMap.get(s);
+
+
             comp.setForeground(ERROR_COLOR);
             sb.append(error.getFix()+"\n");
         }

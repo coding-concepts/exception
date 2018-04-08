@@ -72,6 +72,16 @@ public class HashingServiceImpl implements HashingService {
     }
 
     @Override
+    public String[] getHashAndSalt(String text) throws Exception {
+        return new String[0];
+    }
+
+    @Override
+    public boolean isValid(String algorithm, String plainPassword, String salt, String hashedPassword) {
+        return  isValid( algorithm, plainPassword.getBytes(), salt.getBytes(),hashedPassword.getBytes());
+    }
+
+
     public boolean isValid(String algorithm, byte[] plainPassword, byte[] salt, byte[] hashedPassword) {
         String newHash ="";
         try {
