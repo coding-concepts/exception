@@ -3,14 +3,7 @@
  */
 package service;
 
-import domain.repository.BookCopyRepository;
-import domain.repository.BookCopyRepositoryImpl;
-import domain.repository.BookRespository;
-import domain.repository.BookRespositoryImpl;
-import domain.repository.LoanRepository;
-import domain.repository.LoanRepositoryImpl;
-import domain.repository.UserRepository;
-import domain.repository.UserRepositoryImpl;
+import domain.repository.*;
 import service.impl.BookServiceImpl;
 import service.impl.EncryptionServiceImpl;
 import service.impl.LoanServiceImpl;
@@ -63,6 +56,7 @@ public class ServiceFactory {
         return new LoanRepositoryImpl();
     }
 
+    public static OverDueLoanRepository getOverDueLoanRepository() { return new OverDueLoanRepositoryImpl(); }
 
     public static EncryptionService getEncryptionService() {
         return new EncryptionServiceImpl();
