@@ -41,7 +41,8 @@ public class LongDocumentFilter extends DocumentFilter {
         return isValidInteger;
     }
 
-    @Override public void insertString(DocumentFilter.FilterBypass fp, int offset, String string, AttributeSet aset) throws BadLocationException {
+    @Override
+    public void insertString(DocumentFilter.FilterBypass fp, int offset, String string, AttributeSet aset) throws BadLocationException {
         if (isValidInteger(fp, string)) {
             super.insertString(fp, offset, string, aset);
         } else {
@@ -49,7 +50,8 @@ public class LongDocumentFilter extends DocumentFilter {
         }
     }
 
-    @Override public void replace(DocumentFilter.FilterBypass fp, int offset, int length, String string, AttributeSet aset) throws BadLocationException {
+    @Override
+    public void replace(DocumentFilter.FilterBypass fp, int offset, int length, String string, AttributeSet aset) throws BadLocationException {
 
         if (isValidInteger(fp, string)) {
             super.replace(fp, offset, length, string, aset);

@@ -8,7 +8,7 @@
       <inheritsPopupMenu value="false"/>
       <preferredSize width="800" height="500"/>
     </properties>
-    <border type="bevel-raised" title-justification="2"/>
+    <border type="etched" title="Registration" title-justification="1"/>
     <children>
       <grid id="4b97d" binding="titlePanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
         <constraints>
@@ -66,7 +66,7 @@
             </constraints>
             <properties>
               <preferredSize width="100" height="24"/>
-              <requestFocusEnabled value="false"/>
+              <requestFocusEnabled value="true"/>
             </properties>
           </component>
           <component id="8347e" class="javax.swing.JLabel" binding="lastName">
@@ -164,6 +164,13 @@
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
+              <model>
+                <item value=""/>
+                <item value="Male"/>
+                <item value="Female"/>
+                <item value="Other"/>
+                <item value="Rather Not Say"/>
+              </model>
               <preferredSize width="100" height="26"/>
             </properties>
           </component>
@@ -222,7 +229,7 @@
         <children>
           <component id="b1bc4" class="javax.swing.JButton" binding="btnOk">
             <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
@@ -231,23 +238,32 @@
           </component>
           <hspacer id="64b1b">
             <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
           </hspacer>
           <vspacer id="396f2">
             <constraints>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
           </vspacer>
           <component id="8f8c6" class="javax.swing.JButton" binding="cancelButton">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
               <text value="Reset"/>
+            </properties>
+          </component>
+          <component id="e3254" class="javax.swing.JButton" binding="backBtn">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value="Back"/>
             </properties>
           </component>
         </children>

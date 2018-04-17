@@ -11,6 +11,7 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 import service.ServiceFactory;
 import service.UserService;
+import util.FrameUtility;
 import validator.RegistrationDataValidator;
 import validator.Validator;
 
@@ -39,7 +40,7 @@ import java.util.Properties;
  * @author Pratyush Giri
  * @since Sep 28, 2017
  */
-public class RegistrationForm {
+public class RegistrationForm implements IScreen {
     private JPanel mainPanel;
 
     private JLabel title;
@@ -86,6 +87,8 @@ public class RegistrationForm {
 
     private JDatePickerImpl txtDob;
 
+    private JButton backBtn;
+
     private UtilDateModel model;
 
     private JDatePanelImpl datePanel;
@@ -96,7 +99,6 @@ public class RegistrationForm {
     private static final Color DEFAULT_COLOR = Color.BLACK;
 
     private static final Color ERROR_COLOR = Color.RED;
-
 
 
     private static final Dimension DIMENSION = new Dimension(200, 30);
@@ -125,6 +127,21 @@ public class RegistrationForm {
                 dealWithOkButton();
             }
         });
+        backBtn.addActionListener(new ActionListener() {
+            /**
+             * Invoked when an action occurs.
+             *
+             * @param e
+             */
+            @Override public void actionPerformed(ActionEvent e) {
+                goBackToLoginScreen();
+            }
+        });
+    }
+
+    private void goBackToLoginScreen() {
+        clearForm();
+        FrameUtility.displayNextScreen(this, new LoginScreen(), "Login Screen");
     }
 
     /**
@@ -139,6 +156,10 @@ public class RegistrationForm {
         data.setPassword(new String(txtPassword.getPassword()));
         data.setConfirmPassWord(new String(txtConfPassword.getPassword()));
         data.setGender(getGender((String)txtGender.getSelectedItem()));
+
+        Date dt = (Date)txtDob.getModel().getValue();
+
+
         data.setDob((Date) txtDob.getModel().getValue());
         if (!"".equals(txtPhone.getText())) {
             data.setPhone(Long.parseLong(txtPhone.getText()));
@@ -149,6 +170,8 @@ public class RegistrationForm {
             validator.validate(data);
             UserService userService = ServiceFactory.getUserService();
             userService.registerUser(data);
+            JOptionPane.showMessageDialog(mainPanel, "User Registered Successfully.");
+            clearForm();
 
         } catch (ValidationException e) {
             List<ValidationError> errors = e.getErrorList();
@@ -163,7 +186,13 @@ public class RegistrationForm {
         }
         StringBuffer sb = new StringBuffer();
         for (ValidationError  error : errors){
-            JLabel comp = errorMap.get(error.getField());
+
+
+            String s = error.getField();
+
+            JLabel comp = errorMap.get(s);
+
+
             comp.setForeground(ERROR_COLOR);
             sb.append(error.getFix()+"\n");
         }
@@ -171,7 +200,7 @@ public class RegistrationForm {
         //make the color of the conf. password to the password.
         confirmPassword.setForeground(password.getForeground());
         //open a dialog
-        JOptionPane.showMessageDialog(new JFrame(), sb.toString());
+        JOptionPane.showMessageDialog(mainPanel, sb.toString());
     }
 
     private char getGender(String selectedItem) {
@@ -193,7 +222,6 @@ public class RegistrationForm {
 
         txtGender.setPreferredSize(DIMENSION);
         txtPhone.setPreferredSize(DIMENSION);
-        txtGender.setModel(new DefaultComboBoxModel<>(new String[]{"", "Male", "Female", "Others", "Rather Not Say"}));
 
     }
 
@@ -202,6 +230,7 @@ public class RegistrationForm {
      * So we need to set the txtDob now.
      */
     public void createUIComponents() {
+
         model = new UtilDateModel();
         //model.setSelected(true);
         Properties p = new Properties();
@@ -246,17 +275,19 @@ public class RegistrationForm {
         errorMap.put("date-of-birth", dob);
     }
 
-    public static void main(String[] args){
-        JFrame f = new JFrame("User Registration");
-        f.setSize(600, 800);
-        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.setContentPane(new RegistrationForm().mainPanel);
-        f.pack();
-        f.setVisible(true);
+//    public static void main(String[] args){
+//        JFrame f = new JFrame("User Registration");
+//        f.setSize(600, 800);
+//        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        f.setContentPane(new RegistrationForm(f).mainPanel);
+//        f.pack();
+//        f.setVisible(true);
+//    }
+
+    @Override
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
-
-
-
 }
 
 

@@ -10,8 +10,6 @@ public class DivideByZero {
 
 
 
-
-
     public static void main(String args[]) {
         Scanner scanner = new Scanner(System.in); // scanner for input
         System.out.print("Please enter an integer numerator: ");

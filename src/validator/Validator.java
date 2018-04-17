@@ -34,7 +34,7 @@ public interface Validator {
     default void checkNull(Object o) throws ValidationException {
         if (o == null) {
             throw new ValidationException("Passed Object is null", new ValidationError("object", "null", "pass a valid one."));
-        }
+    }
     }
 
 }
